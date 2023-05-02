@@ -1,4 +1,4 @@
-
+import java.util.Random;
 
 class Data {
 // Le visibilità di classi , attributi e metodi devono essere decise dagli studenti	
@@ -176,16 +176,51 @@ class Data {
 		}
 
 		return stringOutput;
+
+
 		
 	}
 
+	Tuple getItemSet(int index){
+		Tuple tuple=new Tuple(explanatorySet.length);
+		for(int i=0;i<explanatorySet.length;i++)
+			tuple.add(new DiscreteItem(explanatorySet[i], (String)data[index][i]),i);
+		return tuple;
+	}
 
-	
-	public static void main(String args[]){
-		Data trainingSet=new Data();
+	int[] sampling(int k){
+		int centroidIndexes[]=new int[k];
+		//choose k random different centroids in data.
+		Random rand=new Random();
+		rand.setSeed(System.currentTimeMillis());
+		for(int i=0;i<k;i++){
+			boolean found=false;
+			int c;
+			do
+			{
+				found=false;
+				c=rand.nextInt(getNumberOfExamples());
+				// verify that centroid[c] is not equal to a centroid already stored in CentroidIndexes
+				for(int j=0;j<i;j++)
+					if(compare(centroidIndexes[j],c)){
+						found=true;
+						break;
+					}
+			}
+			while(found);
+			centroidIndexes[i]=c;
+		}
+		return centroidIndexes;
+	}
 
-		System.out.println(trainingSet.toString());
-
+	private boolean compare(int i,int j){
+		for(int k = 0; k < this.getNumberOfAttributes(); k++){
+			// controllare l'ugualianza senza cast
+			if((String)data[i][k] != (String)data[j][k]){
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
