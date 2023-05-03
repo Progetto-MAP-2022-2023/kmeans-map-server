@@ -66,7 +66,7 @@ public class Cluster {
 			str+="] dist="+getCentroid().getDistance(data.getItemSet(array[i]))+"\n";
 			
 		}
-		str+="\nAvgDistance="+getCentroid().avgDistance(data, array);
+		str+="AvgDistance="+getCentroid().avgDistance(data, array) + "\n";
 		return str;
 		
 	}
