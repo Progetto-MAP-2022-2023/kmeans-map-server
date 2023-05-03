@@ -11,7 +11,6 @@ public class Cluster {
 	Cluster(Tuple centroid){
 		this.centroid=centroid;
 		clusteredData=new ArraySet();
-		
 	}
 		
 	Tuple getCentroid(){
@@ -19,7 +18,7 @@ public class Cluster {
 	}
 	
 	void computeCentroid(Data data){
-		for(int i=0;i<centroid.getLength();i++){
+		for(int i = 0; i<centroid.getLength(); i++){
 			centroid.get(i).update(data,clusteredData);
 			
 		}
@@ -62,7 +61,7 @@ public class Cluster {
 		int array[]=clusteredData.toArray();
 		for(int i=0;i<array.length;i++){
 			str+="[";
-			for(int j=0;j<data.getNumberOfExplanatoryAttributes();j++)
+			for(int j=0;j<data.getNumberOfAttributes();j++)
 				str+=data.getAttributeValue(array[i], j)+" ";
 			str+="] dist="+getCentroid().getDistance(data.getItemSet(array[i]))+"\n";
 			

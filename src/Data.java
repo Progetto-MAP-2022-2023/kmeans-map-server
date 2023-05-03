@@ -182,9 +182,9 @@ class Data {
 	}
 
 	Tuple getItemSet(int index){
-		Tuple tuple=new Tuple(explanatorySet.length);
-		for(int i=0;i<explanatorySet.length;i++)
-			tuple.add(new DiscreteItem(explanatorySet[i], (String)data[index][i]),i);
+		Tuple tuple=new Tuple(attributeSet.length);
+		for(int i = 0; i < attributeSet.length; i++)
+			tuple.add(new DiscreteItem((DiscreteAttribute)attributeSet[i], (String)data[index][i]), i);
 		return tuple;
 	}
 
@@ -216,11 +216,37 @@ class Data {
 	private boolean compare(int i,int j){
 		for(int k = 0; k < this.getNumberOfAttributes(); k++){
 			// controllare l'ugualianza senza cast
+			/*if(!((String)(data[i][j])).equals((String)data[j][k])){
+				return false;
+			}*/
 			if((String)data[i][k] != (String)data[j][k]){
 				return false;
 			}
 		}
 		return true;
 	}
+
+	Object computePrototype(ArraySet idList, Attribute attribute){
+		return (Object)computePrototype(idList, (DiscreteAttribute) attribute);
+	}
+
+	private String computePrototype(ArraySet idList, DiscreteAttribute attribute){
+		int maxOccurrence;
+		int tempOccurrence;
+		int indexOfMaxOccurrency;
+		int i = 0;
+
+		maxOccurrence= attribute.frequency(this, idList, attribute.getValue(i));
+		indexOfMaxOccurrency = i;
+		for(i = 1; i < attribute.getNumberOfDistinctValues(); i++){
+			tempOccurrence = attribute.frequency(this, idList, attribute.getValue(i));
+			if(maxOccurrence < tempOccurrence){
+				maxOccurrence = tempOccurrence;
+				indexOfMaxOccurrency = i;
+			}
+		}
+		return attribute.getValue(indexOfMaxOccurrency);
+	}
+
 
 }
