@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class ClusterSet {
     private Cluster[] C;
     private int i = 0;
@@ -8,7 +10,7 @@ public class ClusterSet {
 
     void add(Cluster c){
         C[i] = c;
-        i+=1;
+        i += 1;
     }
 
     Cluster get(int i){
@@ -16,12 +18,13 @@ public class ClusterSet {
     }
 
     void initializeCentroids(Data data){
-        int centroidIndexes[]=data.sampling(C.length);
-        for(int i = 0;i<centroidIndexes.length; i++)
-        {
+
+        int[] centroidIndexes = data.sampling(C.length);
+        for(int i = 0; i<centroidIndexes.length; i++) {
             Tuple centroidI = data.getItemSet(centroidIndexes[i]);
             this.add(new Cluster(centroidI));
         }
+
     }
 
     Cluster nearestCluster(Tuple tuple){
@@ -39,7 +42,6 @@ public class ClusterSet {
                 clusterIndex = i;
             }
         }
-
         return C[clusterIndex];
     }
 
@@ -54,6 +56,7 @@ public class ClusterSet {
     }
 
     void updateCentroids(Data data){
+
         for(int i = 0; i < C.length; i++){
             C[i].computeCentroid(data);
         }

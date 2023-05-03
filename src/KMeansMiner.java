@@ -18,9 +18,8 @@ public class KMeansMiner {
             numberOfIterations++;
             //STEP 2
             changedCluster=false;
-            for(int i=0;i<data.getNumberOfExamples();i++){
-                Cluster nearestCluster = C.nearestCluster(
-                        data.getItemSet(i));
+            for(int i = 0; i<data.getNumberOfExamples(); i++){
+                Cluster nearestCluster = C.nearestCluster(data.getItemSet(i));
                 Cluster oldCluster=C.currentCluster(i);
                 boolean currentChange=nearestCluster.addData(i);
                 if(currentChange)

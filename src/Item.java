@@ -22,6 +22,11 @@ abstract public class Item {
 
     abstract double distance(Object a);
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     void update(Data data, ArraySet clusteredData){
         value = data.computePrototype(clusteredData, attribute);
     }

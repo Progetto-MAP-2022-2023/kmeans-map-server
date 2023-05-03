@@ -21,12 +21,7 @@ public class Tuple {
         int length;
         double distance = 0;
 
-        if (tuple.length < obj.getLength()) {
-            length = tuple.length;
-        } else {
-            length = obj.getLength();
-        }
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < this.getLength(); i++) {
             distance = distance + this.tuple[i].distance(obj.tuple[i]);
         }
 

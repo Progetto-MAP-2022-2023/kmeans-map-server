@@ -30,7 +30,7 @@ class DiscreteAttribute extends Attribute {
         // se il valore è presente lo conta
         for(int i = 0; i < position.length; i++){
             attributeValue = (String)data.getAttributeValue(position[i], super.getIndex());
-            if(v == attributeValue){
+            if(v.equals(attributeValue)){
                 occurrences +=1;
             }
         }
