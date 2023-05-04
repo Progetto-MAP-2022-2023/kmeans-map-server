@@ -1,4 +1,4 @@
-
+import java.util.Random;
 
 class Data {
 // Le visibilità di classi , attributi e metodi devono essere decise dagli studenti	
@@ -108,31 +108,31 @@ class Data {
 		//temperature
 
 		String temperatureValues[] = new String[3];
-		temperatureValues[0]="Hot";
-		temperatureValues[1]="Mild";
-		temperatureValues[2]="Cool";
+		temperatureValues[0]="hot";
+		temperatureValues[1]="mild";
+		temperatureValues[2]="cool";
 		attributeSet[1] = new DiscreteAttribute("Temperature", 1, temperatureValues);
 
 
 		//Humidity
 
 		String humidityValues[] = new String[2];
-		humidityValues[0]="High";
-		humidityValues[1]="Normal";
+		humidityValues[0]="high";
+		humidityValues[1]="normal";
 		attributeSet[2] = new DiscreteAttribute("Humidity", 2, humidityValues);
 
 		//Wind
 
 		String windValues[] = new String[2];
-		windValues[0]="Weak";
-		windValues[1]="Strong";
+		windValues[0]="weak";
+		windValues[1]="strong";
 		attributeSet[3] = new DiscreteAttribute("Wind", 3, windValues);
 
 		//PlayTennis
 
 		String playTennisValues[] = new String[2];
-		playTennisValues[0]="Yes";
-		playTennisValues[1]="No";
+		playTennisValues[0]="yes";
+		playTennisValues[1]="no";
 		attributeSet[4] = new DiscreteAttribute("PlayTennis", 4, playTennisValues);
 		
 	}
@@ -176,16 +176,78 @@ class Data {
 		}
 
 		return stringOutput;
+
+
 		
 	}
 
-
-	
-	public static void main(String args[]){
-		Data trainingSet=new Data();
-
-		System.out.println(trainingSet.toString());
-
+	Tuple getItemSet(int index){
+		Tuple tuple = new Tuple(attributeSet.length);
+		for(int i = 0; i < attributeSet.length; i++) {
+			tuple.add(new DiscreteItem((DiscreteAttribute)attributeSet[i], (String)data[index][i]), i);
+		}
+		return tuple;
 	}
+
+	int[] sampling(int k){
+		int[] centroidIndexes=new int[k];
+		//choose k random different centroids in data.
+		Random rand=new Random();
+		rand.setSeed(System.currentTimeMillis());
+		for(int i=0; i<k; i++){
+			boolean found = false;
+			int c;
+			do
+			{
+				found = false;
+				c = rand.nextInt(getNumberOfExamples());
+				// verify that centroid[c] is not equal to a centroid already stored in CentroidIndexes
+				for(int j=0;j<i;j++)
+					if(compare(centroidIndexes[j],c)){
+						found=true;
+						break;
+					}
+			}
+			while(found);
+			centroidIndexes[i]=c;
+		}
+		return centroidIndexes;
+	}
+
+	private boolean compare(int i,int j){
+		for(int k = 0; k < this.getNumberOfAttributes(); k++){
+			// controllare l'ugualianza senza cast
+			/*if(!((String)(data[i][j])).equals((String)data[j][k])){
+				return false;
+			}*/
+			if((String)data[i][k] != (String)data[j][k]){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	Object computePrototype(ArraySet idList, Attribute attribute){
+		return (Object)computePrototype(idList, (DiscreteAttribute)attribute);
+	}
+
+	private String computePrototype(ArraySet idList, DiscreteAttribute attribute){
+		int maxOccurrence;
+		int tempOccurrence;
+		int indexOfMaxOccurrency;
+		int i = 0;
+
+		maxOccurrence = attribute.frequency(this, idList, attribute.getValue(i));
+		indexOfMaxOccurrency = i;
+		for(i = 1; i < attribute.getNumberOfDistinctValues(); i++){
+			tempOccurrence = attribute.frequency(this, idList, attribute.getValue(i));
+			if(maxOccurrence < tempOccurrence){
+				maxOccurrence = tempOccurrence;
+				indexOfMaxOccurrency = i;
+			}
+		}
+		return attribute.getValue(indexOfMaxOccurrency);
+	}
+
 
 }
