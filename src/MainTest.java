@@ -16,7 +16,7 @@ public class MainTest {
 		Data data = new Data();
 		System.out.println(data);
 
-		char choice;
+		String choice;
 		do {
 			int k = 0;
 			do {
@@ -33,9 +33,9 @@ public class MainTest {
 			do {
 				System.out.print("Do you want to continue running? : ");
 				System.out.print("For YES type Y, for NO type N : ");
-				choice = readChar();
-			} while ((choice == 'Y') || (choice == 'N'));
-		}while(choice =='Y');
+				choice = readWord();
+			} while (!(choice.toUpperCase().equals("Y")) && !(choice.toUpperCase().equals("N")));
+		}while(choice.toUpperCase().equals("Y"));
 
 
 

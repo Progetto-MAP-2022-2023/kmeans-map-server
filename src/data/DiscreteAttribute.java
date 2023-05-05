@@ -1,7 +1,5 @@
 package data;
 
-import data.Attribute;
-import data.Data;
 import utility.ArraySet;
 
 class DiscreteAttribute extends Attribute {

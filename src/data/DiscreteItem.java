@@ -1,7 +1,5 @@
 package data;
 
-import data.DiscreteAttribute;
-
 /**
  * Class that extends "data.Item" and work on discrete item types
  * @see Item

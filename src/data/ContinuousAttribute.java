@@ -1,7 +1,5 @@
 package data;
 
-import data.Attribute;
-
 class ContinuousAttribute extends Attribute {
     private double min;
     private double max;

@@ -1,8 +1,6 @@
 package mining;
 
 import data.Data;
-import mining.Cluster;
-import mining.ClusterSet;
 
 public class KMeansMiner {
     private ClusterSet C;

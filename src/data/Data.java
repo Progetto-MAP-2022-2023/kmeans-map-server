@@ -1,6 +1,5 @@
 package data;
 
-import data.Attribute;
 import utility.ArraySet;
 
 import java.util.Random;
@@ -10,6 +9,7 @@ public class Data {
 	private Object data[][];
 	private int numberOfExamples;
 	private Attribute attributeSet[];
+	private int distinctTuples;
 	
 	
 	public Data(){
@@ -90,13 +90,18 @@ public class Data {
 		data[11][4]=new String ("yes");
 		data[12][4]=new String ("yes");
 		data[13][4]=new String ("no");
-		
+
+
 		numberOfExamples = 14;
+
 		 
 		
 		//explanatory Set
 		
 		attributeSet = new Attribute[5];
+
+		distinctTuples = this.countDistinctTuples();
+		System.out.println("Numero di tuple distinte: " + distinctTuple);
 
 		// TO DO : avvalorare ciascune elemento di attributeSet con un oggetto della classe DiscreteAttribute che modella il corrispondente attributo (e.g. outlook, temperature,etc)
 		// nel seguito si fornisce l'esempio per outlook
@@ -180,8 +185,6 @@ public class Data {
 
 		return stringOutput;
 
-
-		
 	}
 
 	public Tuple getItemSet(int index){
@@ -219,11 +222,7 @@ public class Data {
 
 	private boolean compare(int i,int j){
 		for(int k = 0; k < this.getNumberOfAttributes(); k++){
-			// controllare l'ugualianza senza cast
-			/*if(!((String)(data[i][j])).equals((String)data[j][k])){
-				return false;
-			}*/
-			if((String)data[i][k] != (String)data[j][k]){
+			if(!((String)data[i][k]).equals((String)data[j][k])){
 				return false;
 			}
 		}
@@ -250,6 +249,30 @@ public class Data {
 			}
 		}
 		return attribute.getValue(indexOfMaxOccurrency);
+	}
+
+	private int countDistinctTuples(){
+		int numberOfDistinctTuples = 0;
+		ArraySet countedElements = new ArraySet();
+
+		for(int i = 0; i < this.numberOfExamples - 1; i++){
+			if(!countedElements.get(i)){
+				numberOfDistinctTuples += 1;
+				countedElements.add(i);
+				for(int j = i+1; j < this.numberOfExamples; j++){
+					if(!countedElements.get(j)){
+						if(this.compare(i, j)){
+							countedElements.add(j);
+						}
+					}
+				}
+			}
+		}
+		if(!countedElements.get(this.numberOfExamples - 1)){
+			numberOfDistinctTuples += 1;
+		}
+
+		return numberOfDistinctTuples;
 	}
 
 
