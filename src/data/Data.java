@@ -101,7 +101,7 @@ public class Data {
 		attributeSet = new Attribute[5];
 
 		distinctTuples = this.countDistinctTuples();
-		System.out.println("Numero di tuple distinte: " + distinctTuple);
+		System.out.println("Numero di tuple distinte: " + distinctTuples);
 
 		// TO DO : avvalorare ciascune elemento di attributeSet con un oggetto della classe DiscreteAttribute che modella il corrispondente attributo (e.g. outlook, temperature,etc)
 		// nel seguito si fornisce l'esempio per outlook
