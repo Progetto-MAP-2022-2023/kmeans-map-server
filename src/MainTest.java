@@ -20,13 +20,13 @@ public class MainTest {
 		do {
 			int k = 0;
 			do {
-				System.out.print("Enter the number : ");
+				System.out.print("Enter the number of clusters : ");
 				k = readInt();
 			} while (k <= 0);
 
 			KMeansMiner kmeans = new KMeansMiner(k);
 			int numIter = kmeans.kmeans(data);
-			System.out.println("Numerous di Iterazione:" + numIter);
+			System.out.println("Number of iterations:" + numIter);
 			System.out.println(kmeans.getC().toString(data));
 
 
