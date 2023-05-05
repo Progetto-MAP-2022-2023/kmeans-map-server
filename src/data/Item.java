@@ -1,3 +1,7 @@
+package data;
+
+import utility.ArraySet;
+
 /**
  * Class that models an item; it contains an attribute and a value
  *
@@ -11,7 +15,7 @@ abstract public class Item {
 
     /**
      * Constructor; inizialize the attribute and the value
-     * @param attribute object of type "Attribute"
+     * @param attribute object of type "data.Attribute"
      * @param value object of type "Object"
      */
     Item(Attribute attribute, Object value){
@@ -64,7 +68,7 @@ abstract public class Item {
      * @param data dataset to get the data from
      * @param clusteredData elements belonging to a cluster
      */
-    void update(Data data, ArraySet clusteredData){
+    public void update(Data data, ArraySet clusteredData){
         value = data.computePrototype(clusteredData, attribute);
     }
 

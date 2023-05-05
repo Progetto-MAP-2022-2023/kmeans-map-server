@@ -1,14 +1,18 @@
+package data;
+
+import data.DiscreteAttribute;
+
 /**
- * Class that extends "Item" and work on discrete item types
+ * Class that extends "data.Item" and work on discrete item types
  * @see Item
  * @author Antonio Catanzaro (GitHub: KoteiMadoshi)
  * @author Daniele Grandolfo
  * @author Rosanna Fracchiola
  */
-public class DiscreteItem extends Item{
+public class DiscreteItem extends Item {
 
     /**
-     * Constructor, call the constructor of "Item"
+     * Constructor, call the constructor of "data.Item"
      * @param attribute the attribute of the discrete item
      * @param value the value that the discrete item assumes
      */
