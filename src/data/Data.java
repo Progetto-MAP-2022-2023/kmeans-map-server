@@ -1,7 +1,6 @@
 package data;
 
 import utility.ArraySet;
-
 import java.util.Random;
 
 public class Data {
@@ -156,8 +155,7 @@ public class Data {
 	Attribute[] getAttributeSchema(){
 		return attributeSet;
 	}
-	
-	
+
 	public Object getAttributeValue(int exampleIndex, int attributeIndex){
 		return data[exampleIndex][attributeIndex];
 	}
@@ -165,8 +163,7 @@ public class Data {
 	Attribute getAttribute(int index){
 		return attributeSet[index];
 	}
-	
-	
+
 	public String toString(){
 		String stringOutput = "";
 
@@ -195,7 +192,10 @@ public class Data {
 		return tuple;
 	}
 
-	public int[] sampling(int k){
+	public int[] sampling(int k) throws OutOfRangeSampleSize{
+		if(k > this.distinctTuples){
+			throw new OutOfRangeSampleSize("Number of cluster is greater than " + this.distinctTuples, new UnsupportedOperationException());
+		}
 		int[] centroidIndexes=new int[k];
 		//choose k random different centroids in data.
 		Random rand=new Random();

@@ -9,7 +9,7 @@ import utility.ArraySet;
  * @author Daniele Grandolfo
  * @author Rosanna Fracchiola
  */
-abstract public class Item {
+public abstract class Item {
     private Attribute attribute;
     private Object value;
 

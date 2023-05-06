@@ -7,7 +7,7 @@ package data;
  * @author Daniele Grandolfo
  * @author Rosanna Fracchiola
  */
-public class DiscreteItem extends Item {
+class DiscreteItem extends Item {
 
     /**
      * Constructor, call the constructor of "data.Item"

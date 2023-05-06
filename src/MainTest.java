@@ -1,4 +1,6 @@
 import data.Data;
+import data.OutOfRangeSampleSize;
+import mining.ClusterSet;
 import mining.KMeansMiner;
 
 import java.util.Scanner;
@@ -15,20 +17,20 @@ public class MainTest {
 
 		Data data = new Data();
 		System.out.println(data);
+		int k = 0;
 
 		String choice;
 		do {
-			int k = 0;
-			do {
-				System.out.print("Enter the number of clusters : ");
+			try {
+				System.out.print("Enter a valid number of clusters (more than 1): ");
 				k = readInt();
-			} while (k <= 0);
-
-			KMeansMiner kmeans = new KMeansMiner(k);
-			int numIter = kmeans.kmeans(data);
-			System.out.println("Number of iterations:" + numIter);
-			System.out.println(kmeans.getC().toString(data));
-
+				KMeansMiner kmeans = new KMeansMiner(k);
+				int numIter = kmeans.kmeans(data);
+				System.out.println("Number of iterations:" + numIter);
+				System.out.println(kmeans.getC().toString(data));
+			} catch(OutOfRangeSampleSize e){
+				System.out.println(e.getMessage());
+			}
 
 			do {
 				System.out.print("Do you want to continue running? : ");
@@ -38,7 +40,6 @@ public class MainTest {
 		}while(choice.toUpperCase().equals("Y"));
 
 
-
-
 	}
 }
+

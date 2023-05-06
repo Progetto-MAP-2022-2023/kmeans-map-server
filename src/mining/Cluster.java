@@ -4,7 +4,7 @@ import data.Data;
 import data.Tuple;
 import utility.ArraySet;
 
-public class Cluster {
+class Cluster {
 	private Tuple centroid;
 
 	private ArraySet clusteredData;
@@ -46,7 +46,8 @@ public class Cluster {
 		clusteredData.delete(id);
 		
 	}
-	
+
+	@Override
 	public String toString(){
 		String str="Centroid=(";
 		for(int i=0;i<centroid.getLength();i++)
@@ -58,7 +59,7 @@ public class Cluster {
 	
 
 	
-	public String toString(Data data){
+	String toString(Data data){
 		String str="Centroid=(";
 		for(int i=0;i<centroid.getLength();i++)
 			str+=centroid.get(i)+ " ";

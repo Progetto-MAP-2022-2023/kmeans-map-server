@@ -22,6 +22,7 @@ class DiscreteAttribute extends Attribute {
     String getValue(int i){
         return values[i];
     }
+
     int frequency(Data data, ArraySet idList, String v){
         int[] position;
         int occurrences = 0;

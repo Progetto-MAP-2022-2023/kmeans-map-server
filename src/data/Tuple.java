@@ -3,7 +3,7 @@ package data;
 public class Tuple {
     private Item[] tuple;
 
-    Tuple(int size){
+    public Tuple(int size){
         tuple = new Item[size];
     }
 
@@ -15,7 +15,7 @@ public class Tuple {
         return tuple[i];
     }
 
-    void add(Item c,int i){
+    public void add(Item c,int i){
         tuple[i] = c;
     }
 
