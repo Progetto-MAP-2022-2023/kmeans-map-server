@@ -3,16 +3,40 @@ package data;
 import utility.ArraySet;
 import java.util.Random;
 
+/**
+ * The Data class models a dataset, made up of a set of tuples that value various attributes, described within the class.
+ */
 public class Data {
-// Le visibilità di classi , attributi e metodi devono essere decise dagli studenti	
+	/**
+	 * Two-Dimensional Array of objects of class <code>Object</code>, contains the various values assumed by the tuples for each attribute present in the dataset used.
+	 */
 	private Object data[][];
+	/**
+	 * Number of tuples present.
+	 */
 	private int numberOfExamples;
+	/**
+	 * Array describing the attributes of the dataset.
+	 */
 	private Attribute attributeSet[];
+	/**
+	 * Number of distinct tuples within the dataset.
+	 */
 	private int distinctTuples;
-	
-	
+
+	/**
+	 * Default constructor; initialize:
+	 * <ul>
+	 *     <li>the Two-Dimensional Array <a href="#data" class="member-name-link"><code>data</code></a> with a certain number of values;</li>
+	 *     <li><a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a> with the number of tuples;</li>
+	 *     <li><a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a> with the number of attributes, their name and the possible values that each attribute can assume;</li>
+	 *     <li><a href="#distinctTuples" class="member-name-link"><code>distinctTuples</code></a> through the <a href="#countDistinctTuples()" class="member-name-link"><code>countDistinctTuples</code></a> method.</li>
+	 * </ul>
+	 */
 	public Data(){
 		
+
+		//Inizializza la matrice data con i vari valori del dataset
 		data = new Object [14][5];
 
 		data[0][0]=new String ("sunny");
@@ -90,80 +114,99 @@ public class Data {
 		data[12][4]=new String ("yes");
 		data[13][4]=new String ("no");
 
-
+		//Inizializza il numero di tuple presenti
 		numberOfExamples = 14;
 
-		 
-		
-		//explanatory Set
-		
+		//Inizializzazione del set di attributi
 		attributeSet = new Attribute[5];
 
-		distinctTuples = this.countDistinctTuples();
-		System.out.println("Numero di tuple distinte: " + distinctTuples);
-
-		// TO DO : avvalorare ciascune elemento di attributeSet con un oggetto della classe DiscreteAttribute che modella il corrispondente attributo (e.g. outlook, temperature,etc)
-		// nel seguito si fornisce l'esempio per outlook
-		
+		//Outlook
 		String outLookValues[]=new String[3];
 		outLookValues[0]="overcast";
 		outLookValues[1]="rain";
 		outLookValues[2]="sunny";
 		attributeSet[0] = new DiscreteAttribute("Outlook",0, outLookValues);
 
-
-		//temperature
-
+		//Temperature
 		String temperatureValues[] = new String[3];
 		temperatureValues[0]="hot";
 		temperatureValues[1]="mild";
 		temperatureValues[2]="cool";
 		attributeSet[1] = new DiscreteAttribute("Temperature", 1, temperatureValues);
 
-
 		//Humidity
-
 		String humidityValues[] = new String[2];
 		humidityValues[0]="high";
 		humidityValues[1]="normal";
 		attributeSet[2] = new DiscreteAttribute("Humidity", 2, humidityValues);
 
 		//Wind
-
 		String windValues[] = new String[2];
 		windValues[0]="weak";
 		windValues[1]="strong";
 		attributeSet[3] = new DiscreteAttribute("Wind", 3, windValues);
 
 		//PlayTennis
-
 		String playTennisValues[] = new String[2];
 		playTennisValues[0]="yes";
 		playTennisValues[1]="no";
 		attributeSet[4] = new DiscreteAttribute("PlayTennis", 4, playTennisValues);
-		
+
+		//Inizializza il numero delle tuple non ripetute
+		distinctTuples = this.countDistinctTuples();
 	}
-	
+
+	/**
+	 * Method that returns the number of tuples in the dataset.
+	 * @return the value of <a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a>.
+	 */
 	public int getNumberOfExamples(){
 		return numberOfExamples;
 	}
-	
+
+	/**
+	 * Method that returns the number of attributes that compose the dataset.
+	 * @return the length of <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>.
+	 */
 	public int getNumberOfAttributes(){
 		return attributeSet.length;
 	}
 
+	/**
+	 * Method that returns the schema of the dataset, through an array that describes the attributes in the form of name, index and values that each of them can assume.
+	 * @return <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>.
+	 */
 	Attribute[] getAttributeSchema(){
 		return attributeSet;
 	}
 
+	/**
+	 * Method that returns the value of an attribute of a specific tuple.
+	 * @param exampleIndex value of the row where the tuple to get the value from is located.
+	 * @param attributeIndex index of the attribute you want to query.
+	 * @return an <code>Object</code> containing the value of the tuple in row <code>exampleIndex</code> and column <code>attributeIndex</code>
+	 */
 	public Object getAttributeValue(int exampleIndex, int attributeIndex){
 		return data[exampleIndex][attributeIndex];
 	}
-	
+
+	/**
+	 * Method that returns an object of class <code>Attribute</code> that describes an attribute with name, index and possible values that it can assume.
+	 * @param index index representing the location where the attribute was saved in <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>
+	 * @return an object of class Attribute
+	 */
 	Attribute getAttribute(int index){
 		return attributeSet[index];
 	}
 
+	/**
+	 * Method that returns a string consisting of:
+	 * <ul>
+	 *     <li>the first row with the names of the attributes;</li>
+	 *     <li>all the tuples present in the dataset, in columns and with the values of each attribute separated by a comma.</li>
+	 * </ul>
+	 * @return a string describing the dataset.
+	 */
 	public String toString(){
 		String stringOutput = "";
 
@@ -184,6 +227,11 @@ public class Data {
 
 	}
 
+	/**
+	 * Method that creates and returns an object of class <code>Tuple</code> that models as a sequence of Attribute-value pairs the row in <a href="#data" class="member-name-link"><code>data</code></a> in position i.
+	 * @param index the value of the row to get the values from.
+	 * @return an object of class <code>Tuple</code>
+	 */
 	public Tuple getItemSet(int index){
 		Tuple tuple = new Tuple(attributeSet.length);
 		for(int i = 0; i < attributeSet.length; i++) {
@@ -192,6 +240,12 @@ public class Data {
 		return tuple;
 	}
 
+	/**
+	 * Method that returns an array of different positions, representing the rows in <a href="#data" class="member-name-link"><code>data</code></a> used as centroids for the first step of the k-means.
+	 * @param k number of positions to return.
+	 * @return an array of k integer values, different from each other.
+	 * @throws OutOfRangeSampleSize
+	 */
 	public int[] sampling(int k) throws OutOfRangeSampleSize{
 		if(k > this.distinctTuples){
 			throw new OutOfRangeSampleSize("Number of cluster is greater than " + this.distinctTuples, new UnsupportedOperationException());
@@ -220,6 +274,12 @@ public class Data {
 		return centroidIndexes;
 	}
 
+	/**
+	 * Method that checks if two tuples in <a href="#data" class="member-name-link"><code>data</code></a> are equal.
+	 * @param i
+	 * @param j
+	 * @return
+	 */
 	private boolean compare(int i,int j){
 		for(int k = 0; k < this.getNumberOfAttributes(); k++){
 			if(!((String)data[i][k]).equals((String)data[j][k])){
