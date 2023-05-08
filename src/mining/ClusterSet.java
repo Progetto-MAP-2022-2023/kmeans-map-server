@@ -1,14 +1,22 @@
-import java.util.Arrays;
+package mining;
+
+import data.Data;
+import data.Tuple;
+import data.OutOfRangeSampleSize;
+
 
 public class ClusterSet {
     private Cluster[] C;
     private int i = 0;
 
-    ClusterSet(int k){
+    ClusterSet(int k) throws OutOfRangeSampleSize{
+        if(k <= 1){
+            throw new OutOfRangeSampleSize("Number of cluster must be greater than 1.", new UnsupportedOperationException());
+        }
         C = new Cluster[k];
     }
 
-    void add(Cluster c){
+    private void add(Cluster c){
         C[i] = c;
         i += 1;
     }
@@ -17,7 +25,7 @@ public class ClusterSet {
         return C[i];
     }
 
-    void initializeCentroids(Data data){
+    void initializeCentroids(Data data) throws OutOfRangeSampleSize{
 
         int[] centroidIndexes = data.sampling(C.length);
         for(int i = 0; i<centroidIndexes.length; i++) {
@@ -62,6 +70,7 @@ public class ClusterSet {
         }
     }
 
+    @Override
     public String toString(){
         String s = "";
 
