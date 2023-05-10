@@ -18,7 +18,7 @@ public class MainTest {
 		Data data = new Data();
 		System.out.println(data);
 		int k = 0;
-
+		
 		String choice;
 		do {
 			try {
