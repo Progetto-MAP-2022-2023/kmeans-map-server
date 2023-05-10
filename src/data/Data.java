@@ -5,6 +5,10 @@ import java.util.Random;
 
 /**
  * The Data class models a dataset, made up of a set of tuples that value various attributes, described within the class.
+ *
+ * @author Antonio Catanzaro (GitHub: KoteiMadoshi)
+ * @author Daniele Grandolfo
+ * @author Rosanna Fracchiola
  */
 public class Data {
 	/**
@@ -193,7 +197,7 @@ public class Data {
 	/**
 	 * Method that returns an object of class <code>Attribute</code> that describes an attribute with name, index and possible values that it can assume.
 	 * @param index index representing the location where the attribute was saved in <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>
-	 * @return an object of class Attribute
+	 * @return an object of class <code>Attribute</code>.
 	 */
 	Attribute getAttribute(int index){
 		return attributeSet[index];
@@ -242,7 +246,13 @@ public class Data {
 
 	/**
 	 * Method that returns an array of different positions, representing the rows in <a href="#data" class="member-name-link"><code>data</code></a> used as centroids for the first step of the k-means.
-	 * @param k number of positions to return.
+	 * <br>First of all, the method checks if the number of centroids to be taken as initial seeds for the clusters is less than or equal to the number of distinct tuples.
+	 * <br>If this condition is not met, the method throws the "<a href="OutOfRangeSampleSize.html"><code>OutOfRangeSampleSize</code></a>" exception. If this condition is satisfied, the algorithm proceeds.
+	 * <br>For k times, a value ranging from 0 to <a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a> - 1 is randomly chosen, and before inserting it into the array that will be returned at the end of the execution,
+	 * <br>it is checked whether the chosen index has already been inserted.
+	 * If it has, another index is chosen.
+	 *
+	 * @param k number of positions to return. It must be less than or equal to the number of distinct tuples.
 	 * @return an array of k integer values, different from each other.
 	 * @throws OutOfRangeSampleSize
 	 */
@@ -276,12 +286,19 @@ public class Data {
 
 	/**
 	 * Method that checks if two tuples in <a href="#data" class="member-name-link"><code>data</code></a> are equal.
-	 * @param i
-	 * @param j
-	 * @return
+	 * To do this, it checks if the values in row i and row j are equal for each attribute.
+	 * @param i Index of the first row to compare.
+	 * @param j Index of the second row to check.
+	 * @return True if the two rows have the same values for each attribute, false otherwise.
 	 */
 	private boolean compare(int i,int j){
+		//Se le righe passate sono le stesse ritorna vero (tupla da controllare con se stessa)
+		if(i == j){
+			return true;
+		}
+		//Controlla se ogni colonna è uguale per entrambe le righe
 		for(int k = 0; k < this.getNumberOfAttributes(); k++){
+			//Se trova una disuguaglianza ritorna falso
 			if(!((String)data[i][k]).equals((String)data[j][k])){
 				return false;
 			}
@@ -289,10 +306,25 @@ public class Data {
 		return true;
 	}
 
+	/**
+	 * Method that returns the result of the private method <a href="#computePrototype(utility.ArraySet,data.DiscreteAttribute)" class="member-name-link">computePrototype</a>(ArraySet idList, DiscreteAttribute attribute).
+	 * @param idList Set of row indices on which to calculate the centroid.
+	 * @param attribute Attribute on which to calculate the prototype (centroid).
+	 * @return an object of the Object class, representing the centroid value with respect to the attribute.
+	 */
 	Object computePrototype(ArraySet idList, Attribute attribute){
 		return (Object)computePrototype(idList, (DiscreteAttribute)attribute);
 	}
 
+	/**
+	 * Method that determines the most frequently occurring value for the attribute in the subset of data identified by idList.
+	 * To do this, it uses the <a href="DiscreteAttribute.html#frequency(data.Data,utility.ArraySet,java.lang.String)" class="member-name-link">frequency</a>
+	 * method of the <a href="DiscreteAttribute.html"><code>DiscreteAttribute</code></a>
+	 * class, calculating the highest occurrence for each value of the specified attribute.
+	 * @param idList Set of row indices of <a href="#data" class="member-name-link"><code>data</code></a> belonging to a cluster.
+	 * @param attribute Discrete attribute according to which to calculate the prototype (centroid).
+	 * @return an object of the String class, representing the centroid with respect to attribute.
+	 */
 	private String computePrototype(ArraySet idList, DiscreteAttribute attribute){
 		int maxOccurrence;
 		int tempOccurrence;
@@ -311,6 +343,31 @@ public class Data {
 		return attribute.getValue(indexOfMaxOccurrency);
 	}
 
+	/**
+	 * Method that returns the number of distinct tuples.
+	 * <br>This method is private as it is only used to initialize the <a href="#distinctTuples" class="member-name-link"><code>distinctTuples</code></a> attribute.
+	 * <br>To do this, an <code>ArraySet</code> of indices is created, which will be used to avoid checking positions already marked as duplicate tuples.
+	 * The algorithm proceeds with the following operations:
+	 * <ul>
+	 *     <li>
+	 *      	First, a tuple is checked. If it has not been previously inserted in the <code>ArraySet</code>,
+	 *      	it means it is not a duplicate tuple, and the number of distinct tuples is incremented.
+	 *     </li>
+	 *     <li>
+	 *     		Next, all subsequent tuples to the currently checked one are compared.
+	 *     		If they are equal, they are marked in the <code>ArraySet</code> at the reference index.
+	 *     </li>
+	 *     <li>
+	 *			After that, the operation is repeated for each tuple in the <a href="#data" class="member-name-link"><code>data</code></a>
+	 *			except the last one to avoid an <code>ArrayIndexOutOfBoundsException</code> in the inner loop.
+	 *     </li>
+	 *     <li>
+	 *         Finally, it is checked whether the index of the last row has not been previously added in the <code>ArraySet</code>,
+	 *         indicating that the tuple is not signed as duplicated before, and therefore the number of distinct tuples is incremented.
+	 *     </li>
+	 * </ul>
+	 * @return an int value indicating the number of distinct tuples contained in the <a href="#data" class="member-name-link"><code>data</code></a>.
+	 */
 	private int countDistinctTuples(){
 		int numberOfDistinctTuples = 0;
 		ArraySet countedElements = new ArraySet();
