@@ -1,7 +1,7 @@
 package data;
 
 import utility.ArraySet;
-import java.util.Random;
+import java.util.*;
 
 /**
  * The Data class models a dataset, made up of a set of tuples that value various attributes, described within the class.
@@ -11,10 +11,57 @@ import java.util.Random;
  * @author Rosanna Fracchiola
  */
 public class Data {
+
+	class Example implements Comparable<Example> {
+
+		private List<Object> example =  new ArrayList<Object>();
+
+		void add(Object o){
+			try {
+				example.add(o);
+			} catch (UnsupportedOperationException | ClassCastException | NullPointerException |
+					 IllegalArgumentException e){
+				System.out.println("Error: " + e.getMessage());
+			}
+		}
+
+		public Object get(int i){
+			return example.get(i);
+		}
+
+		public int compareTo(Example ex){
+			Iterator<Object> thisIterator = this.example.iterator();
+			Iterator<Object> exIterator = ex.example.iterator();
+			String thisString;
+			String exString;
+			do{
+				thisString = (String)thisIterator.next();
+				exString = (String)exIterator.next();
+				if(!thisString.equals(exString)){
+					if(thisString.compareTo(exString) > 0){
+						return 1;
+					}else{
+						return -1;
+					}
+				}
+			}while(thisIterator.hasNext());
+			return 0;
+		}
+
+		@Override
+		public String toString(){
+			String stringToReturn = "";
+			for(Object obj: this.example){
+				stringToReturn += (String)obj;
+			}
+			return stringToReturn;
+		}
+	}
+
 	/**
 	 * Two-Dimensional Array of objects of class <code>Object</code>, contains the various values assumed by the tuples for each attribute present in the dataset used.
 	 */
-	private Object data[][];
+	private List<Example> data;
 	/**
 	 * Number of tuples present.
 	 */
@@ -22,7 +69,7 @@ public class Data {
 	/**
 	 * Array describing the attributes of the dataset.
 	 */
-	private Attribute attributeSet[];
+	private List<Attribute> attributeSet;
 	/**
 	 * Number of distinct tuples within the dataset.
 	 */
@@ -38,126 +85,155 @@ public class Data {
 	 * </ul>
 	 */
 	public Data(){
-		
+
 
 		//Inizializza la matrice data con i vari valori del dataset
-		data = new Object [14][5];
+		TreeSet<Example> tempSet = new TreeSet<Example>();
 
-		data[0][0]=new String ("sunny");
-		data[1][0]=new String ("sunny");
-		data[2][0]=new String ("overcast");
-		data[3][0]=new String ("rain");
-		data[4][0]=new String ("rain");
-		data[5][0]=new String ("rain");
-		data[6][0]=new String ("overcast");
-		data[7][0]=new String ("sunny");
-		data[8][0]=new String ("sunny");
-		data[9][0]=new String ("rain");
-		data[10][0]=new String ("sunny");
-		data[11][0]=new String ("overcast");
-		data[12][0]=new String ("overcast");
-		data[13][0]=new String ("rain");
+		Example ex0 = new Example();
+		Example ex1 = new Example();
+		Example ex2 = new Example();
+		Example ex3 = new Example();
+		Example ex4 = new Example();
+		Example ex5 = new Example();
+		Example ex6 = new Example();
+		Example ex7 = new Example();
+		Example ex8 = new Example();
+		Example ex9 = new Example();
+		Example ex10 = new Example();
+		Example ex11 = new Example();
+		Example ex12 = new Example();
+		Example ex13 = new Example();
 
-		data[0][1]=new String ("hot");
-		data[1][1]=new String ("hot");
-		data[2][1]=new String ("hot");
-		data[3][1]=new String ("mild");
-		data[4][1]=new String ("cool");
-		data[5][1]=new String ("cool");
-		data[6][1]=new String ("cool");
-		data[7][1]=new String ("mild");
-		data[8][1]=new String ("cool");
-		data[9][1]=new String ("mild");
-		data[10][1]=new String ("mild");
-		data[11][1]=new String ("mild");
-		data[12][1]=new String ("hot");
-		data[13][1]=new String ("mild");
+		ex0.add(new String ("sunny"));
+		ex1.add(new String ("sunny"));
+		ex2.add(new String ("overcast"));
+		ex3.add(new String ("rain"));
+		ex4.add(new String ("rain"));
+		ex5.add(new String ("rain"));
+		ex6.add(new String ("overcast"));
+		ex7.add(new String ("sunny"));
+		ex8.add(new String ("sunny"));
+		ex9.add(new String ("rain"));
+		ex10.add(new String ("sunny"));
+		ex11.add(new String ("overcast"));
+		ex12.add(new String ("overcast"));
+		ex13.add(new String ("rain"));
 
-		data[0][2]=new String ("high");
-		data[1][2]=new String ("high");
-		data[2][2]=new String ("high");
-		data[3][2]=new String ("high");
-		data[4][2]=new String ("normal");
-		data[5][2]=new String ("normal");
-		data[6][2]=new String ("normal");
-		data[7][2]=new String ("high");
-		data[8][2]=new String ("normal");
-		data[9][2]=new String ("normal");
-		data[10][2]=new String ("normal");
-		data[11][2]=new String ("high");
-		data[12][2]=new String ("normal");
-		data[13][2]=new String ("high");
+		ex0.add(new String ("hot"));
+		ex1.add(new String ("hot"));
+		ex2.add(new String ("hot"));
+		ex3.add(new String ("mild"));
+		ex4.add(new String ("cool"));
+		ex5.add(new String ("cool"));
+		ex6.add(new String ("cool"));
+		ex7.add(new String ("mild"));
+		ex8.add(new String ("cool"));
+		ex9.add(new String ("mild"));
+		ex10.add(new String ("mild"));
+		ex11.add(new String ("mild"));
+		ex12.add(new String ("hot"));
+		ex13.add(new String ("mild"));
 
-		data[0][3]=new String ("weak");
-		data[1][3]=new String ("strong");
-		data[2][3]=new String ("weak");
-		data[3][3]=new String ("weak");
-		data[4][3]=new String ("weak");
-		data[5][3]=new String ("strong");
-		data[6][3]=new String ("strong");
-		data[7][3]=new String ("weak");
-		data[8][3]=new String ("weak");
-		data[9][3]=new String ("weak");
-		data[10][3]=new String ("strong");
-		data[11][3]=new String ("strong");
-		data[12][3]=new String ("weak");
-		data[13][3]=new String ("strong");
+		ex0.add(new String ("high"));
+		ex1.add(new String ("high"));
+		ex2.add(new String ("high"));
+		ex3.add(new String ("high"));
+		ex4.add(new String ("normal"));
+		ex5.add(new String ("normal"));
+		ex6.add(new String ("normal"));
+		ex7.add(new String ("high"));
+		ex8.add(new String ("normal"));
+		ex9.add(new String ("normal"));
+		ex10.add(new String ("normal"));
+		ex11.add(new String ("high"));
+		ex12.add(new String ("normal"));
+		ex13.add(new String ("high"));
 
-		data[0][4]=new String ("no");
-		data[1][4]=new String ("no");
-		data[2][4]=new String ("yes");
-		data[3][4]=new String ("yes");
-		data[4][4]=new String ("yes");
-		data[5][4]=new String ("no");
-		data[6][4]=new String ("yes");
-		data[7][4]=new String ("no");
-		data[8][4]=new String ("yes");
-		data[9][4]=new String ("yes");
-		data[10][4]=new String ("yes");
-		data[11][4]=new String ("yes");
-		data[12][4]=new String ("yes");
-		data[13][4]=new String ("no");
+		ex0.add(new String ("weak"));
+		ex1.add(new String ("strong"));
+		ex2.add(new String ("weak"));
+		ex3.add(new String ("weak"));
+		ex4.add(new String ("weak"));
+		ex5.add(new String ("strong"));
+		ex6.add(new String ("strong"));
+		ex7.add(new String ("weak"));
+		ex8.add(new String ("weak"));
+		ex9.add(new String ("weak"));
+		ex10.add(new String ("strong"));
+		ex11.add(new String ("strong"));
+		ex12.add(new String ("weak"));
+		ex13.add(new String ("strong"));
+
+		ex0.add(new String ("no"));
+		ex1.add(new String ("no"));
+		ex2.add(new String ("yes"));
+		ex3.add(new String ("yes"));
+		ex4.add(new String ("yes"));
+		ex5.add(new String ("no"));
+		ex6.add(new String ("yes"));
+		ex7.add(new String ("no"));
+		ex8.add(new String ("yes"));
+		ex9.add(new String ("yes"));
+		ex10.add(new String ("yes"));
+		ex11.add(new String ("yes"));
+		ex12.add(new String ("yes"));
+		ex13.add(new String ("no"));
+
+		tempSet.add(ex0);
+		tempSet.add(ex1);
+		tempSet.add(ex2);
+		tempSet.add(ex3);
+		tempSet.add(ex4);
+		tempSet.add(ex5);
+		tempSet.add(ex6);
+		tempSet.add(ex7);
+		tempSet.add(ex8);
+		tempSet.add(ex9);
+		tempSet.add(ex10);
+		tempSet.add(ex11);
+		tempSet.add(ex12);
+		tempSet.add(ex13);
+
+		data = new ArrayList<Example>(tempSet);
 
 		//Inizializza il numero di tuple presenti
-		numberOfExamples = 14;
+		numberOfExamples = data.size();
 
 		//Inizializzazione del set di attributi
-		attributeSet = new Attribute[5];
+		attributeSet = new LinkedList<Attribute>();
 
 		//Outlook
 		String outLookValues[]=new String[3];
 		outLookValues[0]="overcast";
 		outLookValues[1]="rain";
 		outLookValues[2]="sunny";
-		attributeSet[0] = new DiscreteAttribute("Outlook",0, outLookValues);
+		attributeSet.add(new DiscreteAttribute("Outlook",0, outLookValues));
 
 		//Temperature
 		String temperatureValues[] = new String[3];
 		temperatureValues[0]="hot";
 		temperatureValues[1]="mild";
 		temperatureValues[2]="cool";
-		attributeSet[1] = new DiscreteAttribute("Temperature", 1, temperatureValues);
+		attributeSet.add(new DiscreteAttribute("Temperature", 1, temperatureValues));
 
 		//Humidity
 		String humidityValues[] = new String[2];
 		humidityValues[0]="high";
 		humidityValues[1]="normal";
-		attributeSet[2] = new DiscreteAttribute("Humidity", 2, humidityValues);
+		attributeSet.add(new DiscreteAttribute("Humidity", 2, humidityValues));
 
 		//Wind
 		String windValues[] = new String[2];
 		windValues[0]="weak";
 		windValues[1]="strong";
-		attributeSet[3] = new DiscreteAttribute("Wind", 3, windValues);
+		attributeSet.add(new DiscreteAttribute("Wind", 3, windValues));
 
 		//PlayTennis
 		String playTennisValues[] = new String[2];
 		playTennisValues[0]="yes";
 		playTennisValues[1]="no";
-		attributeSet[4] = new DiscreteAttribute("PlayTennis", 4, playTennisValues);
-
-		//Inizializza il numero delle tuple non ripetute
-		distinctTuples = this.countDistinctTuples();
+		attributeSet.add(new DiscreteAttribute("PlayTennis", 4, playTennisValues));
 	}
 
 	/**
@@ -173,15 +249,7 @@ public class Data {
 	 * @return the length of <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>.
 	 */
 	public int getNumberOfAttributes(){
-		return attributeSet.length;
-	}
-
-	/**
-	 * Method that returns the schema of the dataset, through an array that describes the attributes in the form of name, index and values that each of them can assume.
-	 * @return <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>.
-	 */
-	Attribute[] getAttributeSchema(){
-		return attributeSet;
+		return attributeSet.size();
 	}
 
 	/**
@@ -191,7 +259,7 @@ public class Data {
 	 * @return an <code>Object</code> containing the value of the tuple in row <code>exampleIndex</code> and column <code>attributeIndex</code>
 	 */
 	public Object getAttributeValue(int exampleIndex, int attributeIndex){
-		return data[exampleIndex][attributeIndex];
+		return data.get(exampleIndex).get(attributeIndex);
 	}
 
 	/**
@@ -200,7 +268,7 @@ public class Data {
 	 * @return an object of class <code>Attribute</code>.
 	 */
 	Attribute getAttribute(int index){
-		return attributeSet[index];
+		return this.attributeSet.get(index);
 	}
 
 	/**
@@ -214,15 +282,15 @@ public class Data {
 	public String toString(){
 		String stringOutput = "";
 
-		for(int i = 0; i < attributeSet.length; i++){
-			stringOutput += attributeSet[i].getName() + ", ";
+		for(Attribute attr : attributeSet){
+			stringOutput += attr.getName() + ", ";
 		}
 		stringOutput += "\n";
 
 		for(int i = 0; i < numberOfExamples; i++){
 			stringOutput += i+1 + ": ";
-			for(int j = 0; j < attributeSet.length; j++){
-				stringOutput += data[i][j] +",";
+			for(int j = 0; j < attributeSet.size(); j++){
+				stringOutput += data.get(i).get(j) +",";
 			}
 			stringOutput += "\n";
 		}
@@ -237,9 +305,9 @@ public class Data {
 	 * @return an object of class <code>Tuple</code>
 	 */
 	public Tuple getItemSet(int index){
-		Tuple tuple = new Tuple(attributeSet.length);
-		for(int i = 0; i < attributeSet.length; i++) {
-			tuple.add(new DiscreteItem((DiscreteAttribute)attributeSet[i], (String)data[index][i]), i);
+		Tuple tuple = new Tuple(attributeSet.size());
+		for(Attribute interAttr:attributeSet) {
+			tuple.add(new DiscreteItem((DiscreteAttribute)interAttr, (String)data.get(index).get(interAttr.getIndex())), interAttr.getIndex());
 		}
 		return tuple;
 	}
@@ -257,8 +325,8 @@ public class Data {
 	 * @throws OutOfRangeSampleSize
 	 */
 	public int[] sampling(int k) throws OutOfRangeSampleSize{
-		if(k > this.distinctTuples){
-			throw new OutOfRangeSampleSize("Number of cluster is greater than " + this.distinctTuples, new UnsupportedOperationException());
+		if(k > this.numberOfExamples){
+			throw new OutOfRangeSampleSize("Number of cluster is greater than " + this.numberOfExamples, new UnsupportedOperationException());
 		}
 		int[] centroidIndexes=new int[k];
 		//choose k random different centroids in data.
@@ -267,8 +335,7 @@ public class Data {
 		for(int i=0; i<k; i++){
 			boolean found = false;
 			int c;
-			do
-			{
+			do {
 				found = false;
 				c = rand.nextInt(getNumberOfExamples());
 				// verify that centroid[c] is not equal to a centroid already stored in CentroidIndexes
@@ -299,7 +366,7 @@ public class Data {
 		//Controlla se ogni colonna è uguale per entrambe le righe
 		for(int k = 0; k < this.getNumberOfAttributes(); k++){
 			//Se trova una disuguaglianza ritorna falso
-			if(!((String)data[i][k]).equals((String)data[j][k])){
+			if(!((String)data.get(i).get(k)).equals((String)data.get(j).get(k))){
 				return false;
 			}
 		}
@@ -328,69 +395,21 @@ public class Data {
 	private String computePrototype(ArraySet idList, DiscreteAttribute attribute){
 		int maxOccurrence;
 		int tempOccurrence;
-		int indexOfMaxOccurrency;
-		int i = 0;
+		String tempString;
+		String stringToReturn;
 
-		maxOccurrence = attribute.frequency(this, idList, attribute.getValue(i));
-		indexOfMaxOccurrency = i;
-		for(i = 1; i < attribute.getNumberOfDistinctValues(); i++){
-			tempOccurrence = attribute.frequency(this, idList, attribute.getValue(i));
-			if(maxOccurrence < tempOccurrence){
-				maxOccurrence = tempOccurrence;
-				indexOfMaxOccurrency = i;
+		Iterator<String> i = attribute.iterator();
+		tempString = i.next();
+		maxOccurrence = attribute.frequency(this, idList, tempString);
+		stringToReturn = tempString;
+		while(i.hasNext()){
+			tempString = i.next();
+			tempOccurrence = attribute.frequency(this, idList, tempString);
+			if(tempOccurrence > maxOccurrence){
+				stringToReturn = tempString;
 			}
 		}
-		return attribute.getValue(indexOfMaxOccurrency);
+		return stringToReturn;
 	}
-
-	/**
-	 * Method that returns the number of distinct tuples.
-	 * <br>This method is private as it is only used to initialize the <a href="#distinctTuples" class="member-name-link"><code>distinctTuples</code></a> attribute.
-	 * <br>To do this, an <code>ArraySet</code> of indices is created, which will be used to avoid checking positions already marked as duplicate tuples.
-	 * The algorithm proceeds with the following operations:
-	 * <ul>
-	 *     <li>
-	 *      	First, a tuple is checked. If it has not been previously inserted in the <code>ArraySet</code>,
-	 *      	it means it is not a duplicate tuple, and the number of distinct tuples is incremented.
-	 *     </li>
-	 *     <li>
-	 *     		Next, all subsequent tuples to the currently checked one are compared.
-	 *     		If they are equal, they are marked in the <code>ArraySet</code> at the reference index.
-	 *     </li>
-	 *     <li>
-	 *			After that, the operation is repeated for each tuple in the <a href="#data" class="member-name-link"><code>data</code></a>
-	 *			except the last one to avoid an <code>ArrayIndexOutOfBoundsException</code> in the inner loop.
-	 *     </li>
-	 *     <li>
-	 *         Finally, it is checked whether the index of the last row has not been previously added in the <code>ArraySet</code>,
-	 *         indicating that the tuple is not signed as duplicated before, and therefore the number of distinct tuples is incremented.
-	 *     </li>
-	 * </ul>
-	 * @return an int value indicating the number of distinct tuples contained in the <a href="#data" class="member-name-link"><code>data</code></a>.
-	 */
-	private int countDistinctTuples(){
-		int numberOfDistinctTuples = 0;
-		ArraySet countedElements = new ArraySet();
-
-		for(int i = 0; i < this.numberOfExamples - 1; i++){
-			if(!countedElements.get(i)){
-				numberOfDistinctTuples += 1;
-				countedElements.add(i);
-				for(int j = i+1; j < this.numberOfExamples; j++){
-					if(!countedElements.get(j)){
-						if(this.compare(i, j)){
-							countedElements.add(j);
-						}
-					}
-				}
-			}
-		}
-		if(!countedElements.get(this.numberOfExamples - 1)){
-			numberOfDistinctTuples += 1;
-		}
-
-		return numberOfDistinctTuples;
-	}
-
 
 }

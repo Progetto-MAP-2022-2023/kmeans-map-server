@@ -1,26 +1,23 @@
 package data;
 
 import utility.ArraySet;
+import java.util.*;
 
-class DiscreteAttribute extends Attribute {
+class DiscreteAttribute extends Attribute implements Iterable<String>{
 
-    private String[] values;
+    private TreeSet<String> values;
 
-    DiscreteAttribute(String name, int index, String values[]){
+    DiscreteAttribute(String name, int index, String[] values){
         super(name, index);
-
-        this.values = new String[values.length];
-        System.arraycopy(values, 0, this.values, 0, this.values.length);
-
+        this.values = new TreeSet<String>(Arrays.asList(values));
     }
-
 
     int getNumberOfDistinctValues(){
-        return values.length;
+        return values.size();
     }
 
-    String getValue(int i){
-        return values[i];
+    public Iterator<String> iterator(){
+        return this.values.iterator();
     }
 
     int frequency(Data data, ArraySet idList, String v){
@@ -42,4 +39,7 @@ class DiscreteAttribute extends Attribute {
 
         return occurrences;
     }
+
 }
+
+
