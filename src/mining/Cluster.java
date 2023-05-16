@@ -2,20 +2,23 @@ package mining;
 
 import data.Data;
 import data.Tuple;
-import utility.ArraySet;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 class Cluster {
 	private Tuple centroid;
 
-	private ArraySet clusteredData;
+	private Set<Integer> clusteredData;
 	
 	/*mining.Cluster(){
 		
 	}*/
 
 	Cluster(Tuple centroid){
-		this.centroid=centroid;
-		clusteredData=new ArraySet();
+		this.centroid = centroid;
+		clusteredData = new HashSet<Integer>();
 	}
 		
 	Tuple getCentroid(){
@@ -37,44 +40,60 @@ class Cluster {
 	
 	//verifica se una transazione � clusterizzata nell'array corrente
 	boolean contain(int id){
-		return clusteredData.get(id);
+		return clusteredData.contains(id);
 	}
 	
 
 	//remove the tuplethat has changed the cluster
 	void removeTuple(int id){
-		clusteredData.delete(id);
-		
+		clusteredData.remove(id);
 	}
 
 	@Override
 	public String toString(){
+
 		String str="Centroid=(";
-		for(int i=0;i<centroid.getLength();i++)
-			str+=centroid.get(i);
-		str+=")";
+		for(Integer iterClusteredData : clusteredData){
+			str += iterClusteredData;
+		}
+		str += ")";
+
 		return str;
-		
 	}
 	
 
 	
 	String toString(Data data){
-		String str="Centroid=(";
-		for(int i=0;i<centroid.getLength();i++)
-			str+=centroid.get(i)+ " ";
-		str+=")\nExamples:\n";
-		int array[]=clusteredData.toArray();
-		for(int i=0;i<array.length;i++){
-			str+="[";
-			for(int j=0;j<data.getNumberOfAttributes();j++)
-				str+=data.getAttributeValue(array[i], j)+" ";
-			str+="] dist="+getCentroid().getDistance(data.getItemSet(array[i]))+"\n";
+
+		String str = "Centroid=(";
+		for(int i = 0; i < centroid.getLength(); i++)
+			str += centroid.get(i) + " ";
+		str += ")\nExamples:\n";
+
+		//Object[] array = clusteredData.toArray();
+
+		/*
+		Integer[] array = new Integer[clusteredData.size()];
+		System.arraycopy(clusteredData.toArray(), 0, array, 0, clusteredData.size());
+		*/
+
+		int[] array = new int[clusteredData.size()];
+		int indexArray = 0;
+		for(Integer tempInt : clusteredData){
+			array[indexArray] = tempInt;
+			indexArray += 1;
+		}
+
+		for(int i = 0 ; i < array.length; i++){
+			str += "[" ;
+			for(int j = 0; j < data.getNumberOfAttributes(); j++)
+				str += data.getAttributeValue(array[i], j) + " ";
+			str += "] dist=" + getCentroid().getDistance(data.getItemSet(array[i])) + "\n";
 			
 		}
-		str+="AvgDistance="+getCentroid().avgDistance(data, array) + "\n";
+		str += "AvgDistance=" + getCentroid().avgDistance(data, array) + "\n";
+
 		return str;
-		
 	}
 
 }

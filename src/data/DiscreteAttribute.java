@@ -1,6 +1,5 @@
 package data;
 
-import utility.ArraySet;
 import java.util.*;
 
 class DiscreteAttribute extends Attribute implements Iterable<String>{
@@ -20,18 +19,13 @@ class DiscreteAttribute extends Attribute implements Iterable<String>{
         return this.values.iterator();
     }
 
-    int frequency(Data data, ArraySet idList, String v){
-        int[] position;
+    int frequency(Data data, Set<Integer> idList, String v){
         int occurrences = 0;
         String attributeValue;
-        Attribute attribute;
-
-        // prendo indici di riga da controllare
-        position=idList.toArray();
 
         // se il valore è presente lo conta
-        for(int i = 0; i < position.length; i++){
-            attributeValue = (String)data.getAttributeValue(position[i], super.getIndex());
+        for(Integer iterIdList : idList){
+            attributeValue = (String)data.getAttributeValue(iterIdList, super.getIndex());
             if(v.equals(attributeValue)){
                 occurrences +=1;
             }

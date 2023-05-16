@@ -1,6 +1,5 @@
 package data;
 
-import utility.ArraySet;
 import java.util.*;
 
 /**
@@ -12,10 +11,20 @@ import java.util.*;
  */
 public class Data {
 
+	/**
+	 * The inner class Example models a transaction.
+	 */
 	class Example implements Comparable<Example> {
 
-		private List<Object> example =  new ArrayList<Object>();
+		/**
+		 * List of attribute values belonging to each example.
+		 */
+		private List<Object> example =  new ArrayList<>();
 
+		/**
+		 * Method that adds a value to the element.
+		 * @param o Value to add to the example.
+		 */
 		void add(Object o){
 			try {
 				example.add(o);
@@ -25,29 +34,52 @@ public class Data {
 			}
 		}
 
+		/**
+		 * Method that returns the value of an attribute in the example.
+		 * @param i Index of the attribute to query.
+		 * @return The value of the attribute at index i.
+		 */
 		public Object get(int i){
 			return example.get(i);
 		}
 
+		/**
+		 * Method that compares two elements of type Example. To do so, all values for each attribute of both Example's object are pairwise compared.
+		 * If they are different, the method returns two values based on the result of the compareTo operation performed on the values.
+		 * @param ex the object to be compared.
+		 * @return <ul>
+		 *     <li>
+		 *         0 if the examples are equals;
+		 *     </li>
+		 *     <li>
+		 *         1 if two values of the examples are different and the result of their compareTo operation is greater than 0.
+		 *     </li>
+		 *     <li>
+		 *         -1 if two values of the examples are different and the result of their compareTo operation is lower than 0.
+		 *     </li>
+		 * </ul>
+		 */
 		public int compareTo(Example ex){
-			Iterator<Object> thisIterator = this.example.iterator();
 			Iterator<Object> exIterator = ex.example.iterator();
 			String thisString;
 			String exString;
-			do{
-				thisString = (String)thisIterator.next();
+
+			for(Object thisIterator : this.example){
+				thisString = (String)thisIterator;
 				exString = (String)exIterator.next();
 				if(!thisString.equals(exString)){
-					if(thisString.compareTo(exString) > 0){
-						return 1;
-					}else{
-						return -1;
-					}
+					int notEqual = (thisString.compareTo(exString) > 0) ?  1 : -1;
+					return notEqual;
 				}
-			}while(thisIterator.hasNext());
+			}
+
 			return 0;
 		}
 
+		/**
+		 * Method that returns a string containing the values for each attribute of the example.
+		 * @return a string that describes the example and its values.
+		 */
 		@Override
 		public String toString(){
 			String stringToReturn = "";
@@ -59,7 +91,7 @@ public class Data {
 	}
 
 	/**
-	 * Two-Dimensional Array of objects of class <code>Object</code>, contains the various values assumed by the tuples for each attribute present in the dataset used.
+	 * List of object of class <code>Example</code>, contains the various values assumed by the tuples for each attribute present in the dataset used.
 	 */
 	private List<Example> data;
 	/**
@@ -67,21 +99,22 @@ public class Data {
 	 */
 	private int numberOfExamples;
 	/**
-	 * Array describing the attributes of the dataset.
+	 * List describing the attributes of the dataset.
 	 */
 	private List<Attribute> attributeSet;
-	/**
-	 * Number of distinct tuples within the dataset.
-	 */
-	private int distinctTuples;
 
 	/**
 	 * Default constructor; initialize:
 	 * <ul>
-	 *     <li>the Two-Dimensional Array <a href="#data" class="member-name-link"><code>data</code></a> with a certain number of values;</li>
-	 *     <li><a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a> with the number of tuples;</li>
-	 *     <li><a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a> with the number of attributes, their name and the possible values that each attribute can assume;</li>
-	 *     <li><a href="#distinctTuples" class="member-name-link"><code>distinctTuples</code></a> through the <a href="#countDistinctTuples()" class="member-name-link"><code>countDistinctTuples</code></a> method.</li>
+	 *     <li>
+	 *         the list <a href="#data" class="member-name-link"><code>data</code></a> with a certain number of values;
+	 *     </li>
+	 *     <li>
+	 *         <a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a> with the number of tuples;
+	 *     </li>
+	 *     <li>
+	 *         <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a> with the number of attributes, their name and the possible values that each attribute can assume;
+	 *     </li>
 	 * </ul>
 	 */
 	public Data(){
@@ -281,18 +314,20 @@ public class Data {
 	 */
 	public String toString(){
 		String stringOutput = "";
+		int counter = 0;
 
 		for(Attribute attr : attributeSet){
 			stringOutput += attr.getName() + ", ";
 		}
 		stringOutput += "\n";
 
-		for(int i = 0; i < numberOfExamples; i++){
-			stringOutput += i+1 + ": ";
+		for(Example e : data){
+			stringOutput += counter+1 + ": ";
 			for(int j = 0; j < attributeSet.size(); j++){
-				stringOutput += data.get(i).get(j) +",";
+				stringOutput += e.get(j) +",";
 			}
 			stringOutput += "\n";
+			counter += 1;
 		}
 
 		return stringOutput;
@@ -306,9 +341,11 @@ public class Data {
 	 */
 	public Tuple getItemSet(int index){
 		Tuple tuple = new Tuple(attributeSet.size());
-		for(Attribute interAttr:attributeSet) {
-			tuple.add(new DiscreteItem((DiscreteAttribute)interAttr, (String)data.get(index).get(interAttr.getIndex())), interAttr.getIndex());
+
+		for(Attribute iterAttr : attributeSet) {
+			tuple.add(new DiscreteItem((DiscreteAttribute)iterAttr, (String)data.get(index).get(iterAttr.getIndex())), iterAttr.getIndex());
 		}
+
 		return tuple;
 	}
 
@@ -328,49 +365,41 @@ public class Data {
 		if(k > this.numberOfExamples){
 			throw new OutOfRangeSampleSize("Number of cluster is greater than " + this.numberOfExamples, new UnsupportedOperationException());
 		}
-		int[] centroidIndexes=new int[k];
+		int[] centroidIndexes = new int[k];
 		//choose k random different centroids in data.
-		Random rand=new Random();
+		Random rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
-		for(int i=0; i<k; i++){
+		for(int i = 0 ; i < k; i++){
 			boolean found = false;
 			int c;
 			do {
 				found = false;
 				c = rand.nextInt(getNumberOfExamples());
 				// verify that centroid[c] is not equal to a centroid already stored in CentroidIndexes
-				for(int j=0;j<i;j++)
+				for(int j = 0; j < i; j++)
 					if(compare(centroidIndexes[j],c)){
-						found=true;
+						found = true;
 						break;
 					}
 			}
 			while(found);
-			centroidIndexes[i]=c;
+			centroidIndexes[i] = c;
 		}
 		return centroidIndexes;
 	}
 
 	/**
-	 * Method that checks if two tuples in <a href="#data" class="member-name-link"><code>data</code></a> are equal.
-	 * To do this, it checks if the values in row i and row j are equal for each attribute.
+	 * Method that checks if two examples in <a href="#data" class="member-name-link"><code>data</code></a> are equal.
 	 * @param i Index of the first row to compare.
 	 * @param j Index of the second row to check.
 	 * @return True if the two rows have the same values for each attribute, false otherwise.
 	 */
 	private boolean compare(int i,int j){
 		//Se le righe passate sono le stesse ritorna vero (tupla da controllare con se stessa)
-		if(i == j){
+		if(i == j || data.get(i).compareTo(data.get(j)) == 0){
 			return true;
 		}
-		//Controlla se ogni colonna è uguale per entrambe le righe
-		for(int k = 0; k < this.getNumberOfAttributes(); k++){
-			//Se trova una disuguaglianza ritorna falso
-			if(!((String)data.get(i).get(k)).equals((String)data.get(j).get(k))){
-				return false;
-			}
-		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -379,8 +408,8 @@ public class Data {
 	 * @param attribute Attribute on which to calculate the prototype (centroid).
 	 * @return an object of the Object class, representing the centroid value with respect to the attribute.
 	 */
-	Object computePrototype(ArraySet idList, Attribute attribute){
-		return (Object)computePrototype(idList, (DiscreteAttribute)attribute);
+	Object computePrototype(Set<Integer> idList, Attribute attribute){
+		return computePrototype(idList, (DiscreteAttribute)attribute);
 	}
 
 	/**
@@ -392,23 +421,19 @@ public class Data {
 	 * @param attribute Discrete attribute according to which to calculate the prototype (centroid).
 	 * @return an object of the String class, representing the centroid with respect to attribute.
 	 */
-	private String computePrototype(ArraySet idList, DiscreteAttribute attribute){
-		int maxOccurrence;
+	private String computePrototype(Set<Integer> idList, DiscreteAttribute attribute){
+		int maxOccurrence = -1;
 		int tempOccurrence;
-		String tempString;
-		String stringToReturn;
+		String stringToReturn = "";
 
-		Iterator<String> i = attribute.iterator();
-		tempString = i.next();
-		maxOccurrence = attribute.frequency(this, idList, tempString);
-		stringToReturn = tempString;
-		while(i.hasNext()){
-			tempString = i.next();
+		for(String tempString : attribute){
 			tempOccurrence = attribute.frequency(this, idList, tempString);
 			if(tempOccurrence > maxOccurrence){
+				maxOccurrence = tempOccurrence;
 				stringToReturn = tempString;
 			}
 		}
+
 		return stringToReturn;
 	}
 
