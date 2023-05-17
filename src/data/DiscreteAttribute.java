@@ -1,40 +1,31 @@
 package data;
 
-import utility.ArraySet;
+import java.util.*;
 
-class DiscreteAttribute extends Attribute {
+class DiscreteAttribute extends Attribute implements Iterable<String>{
 
-    private String[] values;
+    private TreeSet<String> values;
 
-    DiscreteAttribute(String name, int index, String values[]){
+    DiscreteAttribute(String name, int index, String[] values){
         super(name, index);
-
-        this.values = new String[values.length];
-        System.arraycopy(values, 0, this.values, 0, this.values.length);
-
+        this.values = new TreeSet<String>(Arrays.asList(values));
     }
-
 
     int getNumberOfDistinctValues(){
-        return values.length;
+        return values.size();
     }
 
-    String getValue(int i){
-        return values[i];
+    public Iterator<String> iterator(){
+        return this.values.iterator();
     }
 
-    int frequency(Data data, ArraySet idList, String v){
-        int[] position;
+    int frequency(Data data, Set<Integer> idList, String v){
         int occurrences = 0;
         String attributeValue;
-        Attribute attribute;
-
-        // prendo indici di riga da controllare
-        position=idList.toArray();
 
         // se il valore è presente lo conta
-        for(int i = 0; i < position.length; i++){
-            attributeValue = (String)data.getAttributeValue(position[i], super.getIndex());
+        for(Integer iterIdList : idList){
+            attributeValue = (String)data.getAttributeValue(iterIdList, super.getIndex());
             if(v.equals(attributeValue)){
                 occurrences +=1;
             }
@@ -42,4 +33,7 @@ class DiscreteAttribute extends Attribute {
 
         return occurrences;
     }
+
 }
+
+

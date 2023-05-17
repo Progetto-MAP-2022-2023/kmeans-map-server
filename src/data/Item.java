@@ -1,6 +1,6 @@
 package data;
 
-import utility.ArraySet;
+import java.util.*;
 
 /**
  * Class that models an item; it contains an attribute and a value
@@ -68,7 +68,7 @@ public abstract class Item {
      * @param data dataset to get the data from
      * @param clusteredData elements belonging to a cluster
      */
-    public void update(Data data, ArraySet clusteredData){
+    public void update(Data data, Set<Integer> clusteredData){
         value = data.computePrototype(clusteredData, attribute);
     }
 
