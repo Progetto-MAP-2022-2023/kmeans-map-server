@@ -63,17 +63,26 @@ public class Data {
 			Iterator<Object> exIterator = ex.example.iterator();
 			String thisString;
 			String exString;
+			Double thisDouble;
+			Double exDouble;
 
 			for(Object thisIterator : this.example){
-				thisString = (String)thisIterator;
-				exString = (String)exIterator.next();
-				if(!thisString.equals(exString)){
-					int notEqual = (thisString.compareTo(exString) > 0) ?  1 : -1;
-					return notEqual;
+				if(thisIterator instanceof String){
+					thisString = (String)thisIterator;
+					exString = (String)exIterator.next();
+					if(!thisString.equals(exString)){
+						return  (thisString.compareTo(exString) > 0) ?  1 : -1;
+					}
+				} else if(thisIterator instanceof Double){
+					thisDouble = (Double)thisIterator;
+					exDouble = (Double)exIterator.next();
+					if(!thisDouble.equals(exDouble)){
+						return  (thisDouble.compareTo(exDouble) > 0) ?  1 : -1;
+					}
 				}
 			}
-
 			return 0;
+
 		}
 
 		/**
@@ -153,20 +162,20 @@ public class Data {
 		ex12.add(new String ("overcast"));
 		ex13.add(new String ("rain"));
 
-		ex0.add(new String ("hot"));
-		ex1.add(new String ("hot"));
-		ex2.add(new String ("hot"));
-		ex3.add(new String ("mild"));
-		ex4.add(new String ("cool"));
-		ex5.add(new String ("cool"));
-		ex6.add(new String ("cool"));
-		ex7.add(new String ("mild"));
-		ex8.add(new String ("cool"));
-		ex9.add(new String ("mild"));
-		ex10.add(new String ("mild"));
-		ex11.add(new String ("mild"));
-		ex12.add(new String ("hot"));
-		ex13.add(new String ("mild"));
+		ex0.add(Double.valueOf("37.5"));
+		ex1.add(Double.valueOf("38.7"));
+		ex2.add(Double.valueOf("37.5"));
+		ex3.add(Double.valueOf("20.5"));
+		ex4.add(Double.valueOf("20.7"));
+		ex5.add(Double.valueOf("21.2"));
+		ex6.add(Double.valueOf("20.5"));
+		ex7.add(Double.valueOf("21.2"));
+		ex8.add(Double.valueOf("21.2"));
+		ex9.add(Double.valueOf("19.8"));
+		ex10.add(Double.valueOf("3.5"));
+		ex11.add(Double.valueOf("3.6"));
+		ex12.add(Double.valueOf("3.5"));
+		ex13.add(Double.valueOf("3.2"));
 
 		ex0.add(new String ("high"));
 		ex1.add(new String ("high"));
@@ -248,7 +257,7 @@ public class Data {
 		temperatureValues[0]="hot";
 		temperatureValues[1]="mild";
 		temperatureValues[2]="cool";
-		attributeSet.add(new DiscreteAttribute("Temperature", 1, temperatureValues));
+		attributeSet.add(new ContinuousAttribute("Temperature",1, 3.2, 38.7));
 
 		//Humidity
 		String humidityValues[] = new String[2];
@@ -343,7 +352,12 @@ public class Data {
 		Tuple tuple = new Tuple(attributeSet.size());
 
 		for(Attribute iterAttr : attributeSet) {
-			tuple.add(new DiscreteItem((DiscreteAttribute)iterAttr, (String)data.get(index).get(iterAttr.getIndex())), iterAttr.getIndex());
+			if(iterAttr instanceof DiscreteAttribute){
+				tuple.add(new DiscreteItem((DiscreteAttribute)iterAttr, (String)data.get(index).get(iterAttr.getIndex())), iterAttr.getIndex());
+			} else if(iterAttr instanceof ContinuousAttribute){
+				tuple.add(new ContinuousItem((ContinuousAttribute)iterAttr, (Double)data.get(index).get(iterAttr.getIndex())), iterAttr.getIndex());
+			}
+
 		}
 
 		return tuple;
@@ -409,7 +423,11 @@ public class Data {
 	 * @return an object of the Object class, representing the centroid value with respect to the attribute.
 	 */
 	Object computePrototype(Set<Integer> idList, Attribute attribute){
-		return computePrototype(idList, (DiscreteAttribute)attribute);
+		if(attribute instanceof DiscreteAttribute){
+			return computePrototype(idList, (DiscreteAttribute)attribute);
+		}else {
+			return computePrototype(idList, (ContinuousAttribute)attribute);
+		}
 	}
 
 	/**
@@ -437,4 +455,14 @@ public class Data {
 		return stringToReturn;
 	}
 
+	private Double computePrototype(Set<Integer> idList, ContinuousAttribute attribute){
+		double avgValue = 0.0;
+
+		for(Integer iterIdList : idList){
+			avgValue += (Double)(data.get(iterIdList).get(attribute.getIndex()));
+		}
+		avgValue /= idList.size();
+
+		return avgValue;
+	}
 }
