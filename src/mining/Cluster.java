@@ -3,11 +3,11 @@ package mining;
 import data.Data;
 import data.Tuple;
 
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-class Cluster {
+class Cluster implements Serializable {
 	private Tuple centroid;
 
 	private Set<Integer> clusteredData;
@@ -28,7 +28,6 @@ class Cluster {
 	void computeCentroid(Data data){
 		for(int i = 0; i<centroid.getLength(); i++){
 			centroid.get(i).update(data,clusteredData);
-			
 		}
 		
 	}
@@ -51,14 +50,12 @@ class Cluster {
 
 	@Override
 	public String toString(){
-
 		String str="Centroid=(";
-		for(Integer iterClusteredData : clusteredData){
-			str += iterClusteredData;
-		}
-		str += ")";
-
+		for(int i=0;i<centroid.getLength();i++)
+			str+= centroid.get(i) + " ";
+		str+=")";
 		return str;
+
 	}
 	
 
@@ -69,13 +66,6 @@ class Cluster {
 		for(int i = 0; i < centroid.getLength(); i++)
 			str += centroid.get(i) + " ";
 		str += ")\nExamples:\n";
-
-		//Object[] array = clusteredData.toArray();
-
-		/*
-		Integer[] array = new Integer[clusteredData.size()];
-		System.arraycopy(clusteredData.toArray(), 0, array, 0, clusteredData.size());
-		*/
 
 		int[] array = new int[clusteredData.size()];
 		int indexArray = 0;
