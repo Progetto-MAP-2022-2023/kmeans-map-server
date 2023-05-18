@@ -3,11 +3,11 @@ package mining;
 import data.Data;
 import data.Tuple;
 
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-class Cluster {
+class Cluster implements Serializable {
 	private Tuple centroid;
 
 	private Set<Integer> clusteredData;

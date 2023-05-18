@@ -1,5 +1,6 @@
 package data;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -9,7 +10,7 @@ import java.util.*;
  * @author Daniele Grandolfo
  * @author Rosanna Fracchiola
  */
-public abstract class Item {
+public abstract class Item implements Serializable {
     private Attribute attribute;
     private Object value;
 
