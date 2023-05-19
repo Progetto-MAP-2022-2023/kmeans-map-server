@@ -50,10 +50,8 @@ public class KMeansMiner {
     }
 
     public void salva(String fileName) throws FileNotFoundException, IOException{
-        File file = new File(fileName);
-        file.createNewFile();
-
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
+
         objectOutputStream.writeObject(this.C);
         objectOutputStream.close();
     }
