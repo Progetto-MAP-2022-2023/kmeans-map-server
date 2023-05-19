@@ -1,11 +1,9 @@
 import data.Data;
 import data.OutOfRangeSampleSize;
 import mining.KMeansMiner;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.File;
-import java.sql.*;
 
 
 import static keyboardinput.Keyboard.*;
