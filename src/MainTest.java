@@ -20,7 +20,7 @@ public class MainTest {
 		System.out.println(data);
 		int k;
 		String choice;
-		String path = "savings/";
+		final String path = "savings/";
 		String fileName;
 
 		do {
@@ -73,5 +73,3 @@ public class MainTest {
 		}while(choice.equalsIgnoreCase("Y"));
 	}
 }
-
-

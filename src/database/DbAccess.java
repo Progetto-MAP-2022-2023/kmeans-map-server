@@ -13,7 +13,7 @@ public class DbAccess {
     private Connection conn;
 
     public void initConnection() throws DatabaseConnectionException{
-        //chiedo al class loader di caricare il driver myql
+        //chiedo al class loader di caricare il driver mysql
         try{
             Class.forName(DRIVER_CLASS_NAME).newInstance();
         }catch (ClassNotFoundException e){
