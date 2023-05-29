@@ -40,7 +40,7 @@ public class Data {
 	 *     </li>
 	 * </ul>
 	 */
-	public Data(){
+	public Data(String tableName){
 
 		DbAccess dbAccess = new DbAccess();
 		try{
@@ -50,7 +50,6 @@ public class Data {
 		}
 
 		TableData table = new TableData(dbAccess);
-		String tableName = "playtennis";
 		try{
 			data = table.getDistinctTransazioni(tableName);
 		}catch(SQLException | EmptySetException e){
