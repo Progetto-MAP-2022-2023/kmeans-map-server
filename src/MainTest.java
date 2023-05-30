@@ -1,7 +1,6 @@
 import data.Data;
 import data.OutOfRangeSampleSize;
 import mining.KMeansMiner;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.File;
@@ -21,7 +20,7 @@ public class MainTest {
 		System.out.println(data);
 		int k;
 		String choice;
-		String path = "savings/";
+		final String path = "savings/";
 		String fileName;
 
 		do {
@@ -36,8 +35,8 @@ public class MainTest {
 					KMeansMiner kmeans = new KMeansMiner(k);
 					int numIter = kmeans.kmeans(data);
 					try{
-						System.out.print("Please enter the name of the file to save (with extension '.dat'): ");
-						fileName = path + readString();
+						System.out.print("Please enter the name of the file to save (IMPORTANT: without extension): ");
+						fileName = path + readString() + ".dat";
 						kmeans.salva(fileName);
 					}catch (FileNotFoundException fileError){
 						System.out.println("Error file: " + fileError.getMessage());
@@ -54,10 +53,10 @@ public class MainTest {
 					File pathFile = new File(path);
 					String[] fileInPath = pathFile.list();
 					for(int i = 0; i < fileInPath.length; i++){
-						System.out.println("File n." + (i+1) + ": " + fileInPath[i]);
+						System.out.println("File n." + (i+1) + ": " + fileInPath[i].replace(".dat", ""));
 					}
-					System.out.print("Please enter the name of the file to load (with extension '.dat'): ");
-					fileName = path + readString();
+					System.out.print("Please enter the name of the file to load (IMPORTANT: without extension): ");
+					fileName = path + readString() + ".dat";
 					KMeansMiner kmeans = new KMeansMiner(fileName);
 					System.out.println(kmeans.getC().toString(data));
 				}catch (FileNotFoundException | ClassNotFoundException e){
@@ -74,5 +73,3 @@ public class MainTest {
 		}while(choice.equalsIgnoreCase("Y"));
 	}
 }
-
-

@@ -2,7 +2,7 @@ package mining;
 
 import data.Data;
 import data.Tuple;
-
+import java.util.Arrays;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -67,21 +67,16 @@ class Cluster implements Serializable {
 			str += centroid.get(i) + " ";
 		str += ")\nExamples:\n";
 
-		int[] array = new int[clusteredData.size()];
-		int indexArray = 0;
-		for(Integer tempInt : clusteredData){
-			array[indexArray] = tempInt;
-			indexArray += 1;
-		}
+		int[] intArray = Arrays.stream(clusteredData.toArray()).mapToInt( x-> (int) x).toArray();
 
-		for(int i = 0 ; i < array.length; i++){
+		for(int i = 0 ; i < intArray.length; i++){
 			str += "[" ;
 			for(int j = 0; j < data.getNumberOfAttributes(); j++)
-				str += data.getAttributeValue(array[i], j) + " ";
-			str += "] dist=" + getCentroid().getDistance(data.getItemSet(array[i])) + "\n";
+				str += data.getAttributeValue(intArray[i], j) + " ";
+			str += "] dist=" + getCentroid().getDistance(data.getItemSet(intArray[i])) + "\n";
 			
 		}
-		str += "AvgDistance=" + getCentroid().avgDistance(data, array) + "\n";
+		str += "AvgDistance=" + getCentroid().avgDistance(data, intArray) + "\n";
 
 		return str;
 	}
