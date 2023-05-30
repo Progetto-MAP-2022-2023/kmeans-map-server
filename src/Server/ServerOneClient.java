@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import java.net.Socket;
 import java.io.*;
@@ -36,20 +36,24 @@ public class ServerOneClient extends Thread{
 
         try {
             while(true) {
-                int choice = (Integer) in.readObject();
+                int choice = (Integer)in.readObject();
                 switch (choice) {
                     case 0:
                         try {
-                            table = (String) in.readObject();
+                            table = (String)in.readObject();
                             data = new Data(table);
                             out.writeObject("OK");
                         } catch (Exception e) {
-                            out.writeObject("Table not found.");
+                            if(e.getMessage().contains("this.data")){
+                                out.writeObject("Table not found.");
+                            }else{
+                                out.writeObject("Error occurred while the server was connecting to the database. Please try again later.");
+                            }
                         }
                         break;
                     case 1:
                         try {
-                            nCluster = (Integer) in.readObject();
+                            nCluster = (Integer)in.readObject();
                             kmeans = new KMeansMiner(nCluster);
                             int numIter = kmeans.kmeans(data);
                             out.writeObject("OK");
@@ -69,6 +73,24 @@ public class ServerOneClient extends Thread{
                         }
                         break;
                     case 3:
+                        try{
+                            table = ((String)in.readObject()).replace(" ", "");
+                            data = new Data(table);
+                            nCluster = (Integer)in.readObject();
+                            fileName = path + table + nCluster + "k.dat";
+                            System.out.println(fileName);
+                            kmeans = new KMeansMiner(fileName);
+                            out.writeObject("OK");
+                            out.writeObject(kmeans.getC().toString(data));
+                        }catch (FileNotFoundException e) {
+                            out.writeObject("File not found.");
+                        }catch (Exception e) {
+                            if(e.getMessage().contains("this.data")){
+                                out.writeObject("Table not found.");
+                            }else{
+                                out.writeObject("Error occurred while the server was connecting to the database. Please try again later.");
+                            }
+                        }
                         break;
                     default:
                         break;

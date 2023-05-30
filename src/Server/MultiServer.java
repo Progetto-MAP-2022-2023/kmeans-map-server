@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import java.io.IOException;
 import java.net.*;
@@ -38,6 +38,6 @@ public class MultiServer {
         }
     }
     public static void main(String[] args){
-        MultiServer multiServer = new MultiServer(65500);
+        MultiServer multiServer = new MultiServer(8080);
     }
 }

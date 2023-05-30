@@ -16,7 +16,7 @@ public class MainTest {
 	 */
 	public static void main(String[] args) {
 
-		Data data = new Data("aaaa");
+		Data data = new Data("playtennis");
 		System.out.println(data);
 		int k;
 		String choice;
