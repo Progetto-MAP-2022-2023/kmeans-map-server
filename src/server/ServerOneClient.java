@@ -36,6 +36,7 @@ public class ServerOneClient extends Thread{
 
         try {
             while(true) {
+                System.out.println("Indirizzo IP connesso: " + socket.getLocalAddress());
                 int choice = (Integer)in.readObject();
                 switch (choice) {
                     case 0:
