@@ -15,12 +15,12 @@ public class ServerOneClient extends Thread{
     private KMeansMiner kmeans;
 
     public ServerOneClient(Socket s) throws IOException{
-        try{
+        try {
             this.socket = s;
             this.in = new ObjectInputStream(this.socket.getInputStream());
             this.out = new ObjectOutputStream(this.socket.getOutputStream());
             this.start();
-        }catch(IOException e){
+        } catch(IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -36,7 +36,6 @@ public class ServerOneClient extends Thread{
 
         try {
             while(true) {
-                System.out.println("Indirizzo IP connesso: " + socket.getLocalAddress());
                 int choice = (Integer)in.readObject();
                 switch (choice) {
                     case 0:
@@ -45,9 +44,9 @@ public class ServerOneClient extends Thread{
                             data = new Data(table);
                             out.writeObject("OK");
                         } catch (Exception e) {
-                            if(e.getMessage().contains("this.data")){
+                            if (e.getMessage().contains("this.data")) {
                                 out.writeObject("Table not found.");
-                            }else{
+                            } else {
                                 out.writeObject("Error occurred while the server was connecting to the database. Please try again later.");
                             }
                         }
@@ -74,7 +73,7 @@ public class ServerOneClient extends Thread{
                         }
                         break;
                     case 3:
-                        try{
+                        try {
                             table = ((String)in.readObject()).replace(" ", "");
                             data = new Data(table);
                             nCluster = (Integer)in.readObject();
@@ -83,12 +82,12 @@ public class ServerOneClient extends Thread{
                             kmeans = new KMeansMiner(fileName);
                             out.writeObject("OK");
                             out.writeObject(kmeans.getC().toString(data));
-                        }catch (FileNotFoundException e) {
+                        } catch (FileNotFoundException e) {
                             out.writeObject("File not found.");
-                        }catch (Exception e) {
-                            if(e.getMessage().contains("this.data")){
+                        } catch (Exception e) {
+                            if (e.getMessage().contains("this.data")) {
                                 out.writeObject("Table not found.");
-                            }else{
+                            } else{
                                 out.writeObject("Error occurred while the server was connecting to the database. Please try again later.");
                             }
                         }
@@ -97,15 +96,16 @@ public class ServerOneClient extends Thread{
                         break;
                 }
             }
+        } catch (EOFException e) {
+            System.out.println("Connection reset");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
-        }finally {
-            try{
+        } finally {
+            try {
                 socket.close();
-            }catch(IOException e){
+            } catch(IOException e){
                 System.out.println(e.getMessage());
             }
         }
     }
-
 }
