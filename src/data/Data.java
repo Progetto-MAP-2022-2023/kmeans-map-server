@@ -5,38 +5,39 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * The Data class models a dataset, made up of a set of tuples that value various attributes, described within the class.
+ * Rappresenta un insieme di dati composto da tuple, ognuna rappresentata da un oggetto della classe {@link Example}.
+ * Contiene i vari valori assunti dalle tuple per ciascun attributo presente nel dataset utilizzato.
  *
- * @author Antonio Catanzaro (GitHub: KoteiMadoshi)
- * @author Daniele Grandolfo
- * @author Rosanna Fracchiola
+ * @author Daniele Grandolfo    (GitHub: dgrandolfo4)
+ * @author Rosanna Fracchiolla  (GitHub: RosannaFracchiolla)
  */
 public class Data {
 
 	/**
-	 * List of object of class <code>Example</code>, contains the various values assumed by the tuples for each attribute present in the dataset used.
+	 * Lista di oggetti di classe {@link Example}, contiene i vari valori assunti dalle tuple per ciascun attributo presente nel dataset utilizzato.
 	 */
 	private List<Example> data;
 	/**
-	 * Number of tuples present.
+	 * Numero di tuple presenti nel dataset.
 	 */
 	private int numberOfExamples;
 	/**
-	 * List describing the attributes of the dataset.
+	 * Lista che descrive gli attributi del dataset, rappresentati da oggetti di classe {@link Attribute}.
 	 */
 	private List<Attribute> attributeSet;
 
 	/**
-	 * Default constructor; initialize:
+	 * Costruttore della clase {@code Data}.
+	 * Inizializza:
 	 * <ul>
 	 *     <li>
-	 *         the list <a href="#data" class="member-name-link"><code>data</code></a> with a certain number of values;
+	 *         La lista di <a href="#data" class="member-name-link"><code>data</code></a> con un determinato numero di valori;
 	 *     </li>
 	 *     <li>
-	 *         <a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a> with the number of tuples;
+	 *         <a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a> con il numero delle Tuple;
 	 *     </li>
 	 *     <li>
-	 *         <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a> with the number of attributes, their name and the possible values that each attribute can assume;
+	 *         <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a> con il numero di attributi, il loro nome ed i possibili valori che ogni attributo può assumere;
 	 *     </li>
 	 * </ul>
 	 */
@@ -90,47 +91,52 @@ public class Data {
 	}
 
 	/**
-	 * Method that returns the number of tuples in the dataset.
-	 * @return the value of <a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a>.
+	 * Restituisce il numero di tuple presenti nel dataset.
+	 *
+	 * @return il valore di {@link #numberOfExamples}.
 	 */
 	public int getNumberOfExamples(){
 		return numberOfExamples;
 	}
 
 	/**
-	 * Method that returns the number of attributes that compose the dataset.
-	 * @return the length of <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>.
+	 * Restituisce il numero di attributi che compongono il dataset.
+	 *
+	 * @return la lunghezza di {@link #attributeSet}.
 	 */
 	public int getNumberOfAttributes(){
 		return attributeSet.size();
 	}
 
 	/**
-	 * Method that returns the value of an attribute of a specific tuple.
-	 * @param exampleIndex value of the row where the tuple to get the value from is located.
-	 * @param attributeIndex index of the attribute you want to query.
-	 * @return an <code>Object</code> containing the value of the tuple in row <code>exampleIndex</code> and column <code>attributeIndex</code>
+	 * Restituisce il valore di un attributo di una specifica tupla.
+	 *
+	 * @param exampleIndex indice della riga in cui si trova la tupla da cui ottenere il valore.
+	 * @param attributeIndex indice dell'attributo da cui si desidera fare la query.
+	 * @return un oggetto {@code Object} contenente il valore della tupla nella riga {@code exampleIndex} e nella colonna {@code attributeIndex}.
 	 */
 	public Object getAttributeValue(int exampleIndex, int attributeIndex){
 		return data.get(exampleIndex).get(attributeIndex);
 	}
 
 	/**
-	 * Method that returns an object of class <code>Attribute</code> that describes an attribute with name, index and possible values that it can assume.
-	 * @param index index representing the location where the attribute was saved in <a href="#attributeSet" class="member-name-link"><code>attributeSet</code></a>
-	 * @return an object of class <code>Attribute</code>.
+	 * Restituisce un oggetto di classe {@link Attribute} che descrive un attributo con nome, indice e valori possibili che può assumere.
+	 *
+	 * @param index indice che rappresenta la posizione in cui l'attributo è stato salvato in {@link #attributeSet}.
+	 * @return un oggetto di classe {@link Attribute}.
 	 */
 	Attribute getAttribute(int index){
 		return this.attributeSet.get(index);
 	}
 
 	/**
-	 * Method that returns a string consisting of:
+	 * Restituisce una stringa composta da:
 	 * <ul>
-	 *     <li>the first row with the names of the attributes;</li>
-	 *     <li>all the tuples present in the dataset, in columns and with the values of each attribute separated by a comma.</li>
+	 *     <li>la prima riga con i nomi degli attributi;</li>
+	 *     <li>tutte le tuple presenti nel dataset, in colonne e con i valori di ogni attributo separati da una virgola.</li>
 	 * </ul>
-	 * @return a string describing the dataset.
+	 *
+	 * @return una stringa che descrive il dataset.
 	 */
 	public String toString(){
 		String stringOutput = "";
@@ -155,9 +161,10 @@ public class Data {
 	}
 
 	/**
-	 * Method that creates and returns an object of class <code>Tuple</code> that models as a sequence of Attribute-value pairs the row in <a href="#data" class="member-name-link"><code>data</code></a> in position i.
-	 * @param index the value of the row to get the values from.
-	 * @return an object of class <code>Tuple</code>
+	 * Crea e restituisce un oggetto di classe {@link Tuple} che modella come sequenza di coppie Attributo-valore la riga in {@link #data} in posizione i.
+	 *
+	 * @param index il valore della riga da cui ottenere i valori.
+	 * @return un oggetto di classe {@link Tuple}.
 	 */
 	public Tuple getItemSet(int index){
 		Tuple tuple = new Tuple(attributeSet.size());
@@ -175,15 +182,15 @@ public class Data {
 	}
 
 	/**
-	 * Method that returns an array of different positions, representing the rows in <a href="#data" class="member-name-link"><code>data</code></a> used as centroids for the first step of the k-means.
-	 * <br>First of all, the method checks if the number of centroids to be taken as initial seeds for the clusters is less than or equal to the number of distinct tuples.
-	 * <br>If this condition is not met, the method throws the "<a href="OutOfRangeSampleSize.html"><code>OutOfRangeSampleSize</code></a>" exception. If this condition is satisfied, the algorithm proceeds.
-	 * <br>For k times, a value ranging from 0 to <a href="#numberOfExamples" class="member-name-link"><code>numberOfExamples</code></a> - 1 is randomly chosen, and before inserting it into the array that will be returned at the end of the execution,
-	 * <br>it is checked whether the chosen index has already been inserted.
-	 * If it has, another index is chosen.
+	 * Restituisce un array di diverse posizioni, rappresentanti le righe in {@link #data} utilizzate come centroidi per il primo passo del k-means.
+	 * <br>Prima di tutto, il metodo verifica se il numero di centroidi da prendere come semi iniziali per i cluster è minore o uguale al numero di tuple distinte.
+	 * <br>Se questa condizione non è soddisfatta, il metodo solleva l'eccezione "<a href="OutOfRangeSampleSize.html"><code>OutOfRangeSampleSize</code></a>". Se questa condizione è soddisfatta, l'algoritmo procede.
+	 * <br>Per k volte, viene scelto casualmente un valore compreso tra 0 e {@link #numberOfExamples} - 1, e prima di inserirlo nell'array che verrà restituito alla fine dell'esecuzione,
+	 * <br>viene verificato se l'indice scelto è già stato inserito.
+	 * Se lo è, viene scelto un altro indice.
 	 *
-	 * @param k number of positions to return. It must be less than or equal to the number of distinct tuples.
-	 * @return an array of k integer values, different from each other.
+	 * @param k numero di posizioni da restituire. Deve essere minore o uguale al numero di tuple distinte.
+	 * @return un array di k valori interi, diversi tra loro.
 	 * @throws OutOfRangeSampleSize
 	 */
 	public int[] sampling(int k) throws OutOfRangeSampleSize{
@@ -214,10 +221,11 @@ public class Data {
 	}
 
 	/**
-	 * Method that checks if two examples in <a href="#data" class="member-name-link"><code>data</code></a> are equal.
-	 * @param i Index of the first row to compare.
-	 * @param j Index of the second row to check.
-	 * @return True if the two rows have the same values for each attribute, false otherwise.
+	 * Verifica se due esempi in {@link #data} sono uguali.
+	 *
+	 * @param i Indice della prima riga da confrontare.
+	 * @param j Indice della seconda riga da controllare.
+	 * @return True se le due righe hanno gli stessi valori per ogni attributo, false altrimenti.
 	 */
 	private boolean compare(int i,int j){
 		//Se le righe passate sono le stesse ritorna vero (tupla da controllare con se stessa)
@@ -228,10 +236,11 @@ public class Data {
 	}
 
 	/**
-	 * Method that returns the result of the private method <a href="#computePrototype(utility.ArraySet,data.DiscreteAttribute)" class="member-name-link">computePrototype</a>(ArraySet idList, DiscreteAttribute attribute).
-	 * @param idList Set of row indices on which to calculate the centroid.
-	 * @param attribute Attribute on which to calculate the prototype (centroid).
-	 * @return an object of the Object class, representing the centroid value with respect to the attribute.
+	 * Restituisce il risultato del metodo privato {@link #computePrototype(Set, Attribute)}.
+	 *
+	 * @param idList Set di indici di righe su cui calcolare il centroide.
+	 * @param attribute Attributo su cui calcolare il prototipo (centroide).
+	 * @return un oggetto della classe Object, rappresentante il valore del centroide rispetto all'attributo.
 	 */
 	Object computePrototype(Set<Integer> idList, Attribute attribute){
 		if(attribute instanceof DiscreteAttribute){
@@ -242,13 +251,13 @@ public class Data {
 	}
 
 	/**
-	 * Method that determines the most frequently occurring value for the attribute in the subset of data identified by idList.
-	 * To do this, it uses the <a href="DiscreteAttribute.html#frequency(data.Data,utility.ArraySet,java.lang.String)" class="member-name-link">frequency</a>
-	 * method of the <a href="DiscreteAttribute.html"><code>DiscreteAttribute</code></a>
-	 * class, calculating the highest occurrence for each value of the specified attribute.
-	 * @param idList Set of row indices of <a href="#data" class="member-name-link"><code>data</code></a> belonging to a cluster.
-	 * @param attribute Discrete attribute according to which to calculate the prototype (centroid).
-	 * @return an object of the String class, representing the centroid with respect to attribute.
+	 * Determina il valore che compare più frequentemente per l'attributo nel sottoinsieme di dati identificato da idList.
+	 * Per fare ciò, utilizza il metodo {@link DiscreteAttribute#frequency(Data, Set, String)} della classe {@link DiscreteAttribute},
+	 * calcolando l'occorrenza più alta per ciascun valore dell'attributo specificato.
+	 *
+	 * @param idList Set di indici di righe di {@link #data} appartenenti a un cluster.
+	 * @param attribute Attributo discreto secondo cui calcolare il prototipo (centroide).
+	 * @return un oggetto della classe String, rappresentante il centroide rispetto all'attributo.
 	 */
 	private String computePrototype(Set<Integer> idList, DiscreteAttribute attribute){
 		int maxOccurrence = -1;
@@ -266,6 +275,13 @@ public class Data {
 		return stringToReturn;
 	}
 
+	/**
+	 * Calcola il prototipo (centroide) rispetto all'attributo continuo.
+	 *
+	 * @param idList Set di indici di righe di {@link #data} appartenenti a un cluster.
+	 * @param attribute Attributo continuo secondo cui calcolare il prototipo (centroide).
+	 * @return un oggetto della classe Double, rappresentante il valore medio rispetto all'attributo.
+	 */
 	private Double computePrototype(Set<Integer> idList, ContinuousAttribute attribute){
 		double avgValue = 0.0;
 

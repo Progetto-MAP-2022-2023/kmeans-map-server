@@ -1,36 +1,39 @@
 package data;
 
 /**
- * Class that extends "data.Item" and work on discrete item types
- * @see Item
- * @author Antonio Catanzaro (GitHub: KoteiMadoshi)
- * @author Daniele Grandolfo
- * @author Rosanna Fracchiola
+ * Rappresenta un elemento discreto associato a un attributo discreto.
+ * Estende dalla classe {@link Item}
+ *
+ * @author Daniele Grandolfo    (GitHub: dgrandolfo4)
+ * @author Rosanna Fracchiolla  (GitHub: RosannaFracchiolla)
  */
 class DiscreteItem extends Item {
 
     /**
-     * Constructor, call the constructor of "data.Item"
-     * @param attribute the attribute of the discrete item
-     * @param value the value that the discrete item assumes
+     * Costruttore della classe `DiscreteItem`.
+     *
+     * @param attribute Attributo discreto associato all'elemento discreto.
+     * @param value Valore che l'elemento discreto assume.
      */
     DiscreteItem(DiscreteAttribute attribute, String value) {
         super(attribute, value);
     }
 
     /**
-     * Methods that calculate the distance between two items
-     * @param a the item with which to calculate the distance
-     * @return 0 if the value of "a" is equal to the value of this item, 1 otherwise
+     * Calcola la distanza tra due elementi discreti.
+     *
+     * @param a L'elemento con cui calcolare la distanza.
+     * @return 0 se il valore di "a" è uguale al valore di questo elemento, 1 altrimenti.
      */
     double distance(Object a){
         return this.equals(a) ? 0 : 1;
     }
 
     /**
-     * Methods that compare the value between two items
-     * @param obj the item to compare with
-     * @return true if the value of "obj" is the same of this object, false otherwise
+     * Confronta il valore tra due elementi discreti.
+     *
+     * @param obj L'elemento con cui confrontare.
+     * @return true se il valore di "obj" è lo stesso di questo elemento, false altrimenti.
      */
     @Override
     public boolean equals(Object obj){

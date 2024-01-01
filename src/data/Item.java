@@ -4,20 +4,23 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Class that models an item; it contains an attribute and a value
+ * Classe astratta che rappresenta un elemento (Item) associato a un attributo.
+ * Implementa l'interfaccia {@link Serializable} per la serializzazione.
  *
- * @author Antonio Catanzaro (GitHub: KoteiMadoshi)
- * @author Daniele Grandolfo
- * @author Rosanna Fracchiola
+ * @author Daniele Grandolfo    (GitHub: dgrandolfo4)
+ * @author Rosanna Fracchiolla  (GitHub: RosannaFracchiolla)
  */
 public abstract class Item implements Serializable {
+    /** Oggetto di tipo {@link Attribute} associato all'elemento. */
     private Attribute attribute;
+    /** Valore dell'elemento. */
     private Object value;
 
     /**
-     * Constructor; inizialize the attribute and the value
-     * @param attribute object of type "data.Attribute"
-     * @param value object of type "Object"
+     * Costruttore della classe `Item`.
+     *
+     * @param attribute Oggetto di tipo {@link Attribute} associato all'elemento.
+     * @param value Valore dell'elemento di tipo {@link Object}.
      */
     Item(Attribute attribute, Object value){
         this.attribute = attribute;
@@ -25,22 +28,27 @@ public abstract class Item implements Serializable {
     }
 
     /**
-     * @return the attribute
+     * Restituisce l'attributo associato a questo elemento.
+     *
+     * @return Oggetto di tipo {@link Attribute} associato a questo elemento.
      */
     Attribute getAttribute(){
         return attribute;
     }
 
     /**
-     * @return the value
+     * Restituisce il valore dell'elemento.
+     *
+     * @return Il valore dell'elemento di tipo {@link Object}.
      */
     Object getValue(){
         return value;
     }
 
     /**
-     * Methods the return the value in the form of a string
-     * @return "value" casted to String
+     * Restituisce una rappresentazione in forma di stringa del valore dell'elemento.
+     *
+     * @return Il valore dell'elemento convertito in stringa.
      */
     @Override
     public String toString(){
@@ -48,16 +56,18 @@ public abstract class Item implements Serializable {
     }
 
     /**
-     * Methods that calculate the distance between two items
-     * @param a the item with which to calculate the distance
-     * @return the distance between "a" and this object (a "double" value)
+     * Calcola la distanza tra due elementi.
+     *
+     * @param a L'elemento con cui calcolare la distanza.
+     * @return La distanza tra "a" e questo oggetto (un valore "double").
      */
     abstract double distance(Object a);
 
     /**
-     * Methods that compare the value between two items
-     * @param obj the item to compare with
-     * @return true if the value of "obj" is the same of this object, false otherwise
+     * Confronta il valore tra due elementi.
+     *
+     * @param obj L'elemento con cui confrontare.
+     * @return true se il valore di "obj" è lo stesso di questo oggetto, false altrimenti.
      */
     @Override
     public boolean equals(Object obj) {
@@ -65,12 +75,12 @@ public abstract class Item implements Serializable {
     }
 
     /**
-     * Methods that modify "value"
-     * @param data dataset to get the data from
-     * @param clusteredData elements belonging to a cluster
+     * Modifica il valore dell'elemento utilizzando i dati dal dataset e gli elementi clusterizzati.
+     *
+     * @param data Dataset da cui ottenere i dati.
+     * @param clusteredData Elementi appartenenti a un cluster.
      */
     public void update(Data data, Set<Integer> clusteredData){
         value = data.computePrototype(clusteredData, attribute);
     }
-
 }

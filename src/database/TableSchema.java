@@ -8,36 +8,76 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Questa classe rappresenta lo schema di una tabella del database, fornendo informazioni sulle colonne.
+ *
+ * @author Daniele Grandolfo    (GitHub: dgrandolfo4)
+ * @author Rosanna Fracchiolla  (GitHub: RosannaFracchiolla)
+ */
 public class TableSchema {
-
+    /** L'accesso al database. */
     DbAccess db;
 
+    /**
+     * Classe interna che rappresenta una colonna della tabella.
+     */
     public class Column{
-
+        /** Il nome della colonna. */
         private String name;
+
+        /** Il tipo della colonna. */
         private String type;
 
+        /**
+         * Costruttore della classe {@code Column}.
+         *
+         * @param name Il nome della colonna.
+         * @param type Il tipo della colonna.
+         */
         Column(String name,String type){
             this.name=name;
             this.type=type;
         }
 
+        /**
+         * Restituisce il nome della colonna.
+         *
+         * @return Il nome della colonna.
+         */
         public String getColumnName(){
             return name;
         }
 
+        /**
+         * Verifica se il tipo della colonna è di tipo numerico.
+         *
+         * @return {@code true} se il tipo è numerico, {@code false} altrimenti.
+         */
         public boolean isNumber(){
             return type.equals("number");
         }
 
+        /**
+         * Restituisce una rappresentazione testuale della colonna nel formato "nome:tipo".
+         *
+         * @return Una stringa che rappresenta la colonna.
+         */
         public String toString(){
             return name+":"+type;
         }
 
     }
 
+    /** La lista delle colonne dello schema della tabella. */
     List<Column> tableSchema = new ArrayList<Column>();
 
+    /**
+     * Costruttore della classe TableSchema.
+     *
+     * @param db        L'accesso al database.
+     * @param tableName Il nome della tabella di cui ottenere lo schema.
+     * @throws SQLException Se si verifica un errore durante l'accesso al database.
+     */
     public TableSchema(DbAccess db, String tableName) throws SQLException{
         this.db=db;
         HashMap<String,String> mapSQL_JAVATypes = new HashMap<String, String>();
@@ -69,10 +109,21 @@ public class TableSchema {
         res.close();
     }
 
+    /**
+     * Restituisce il numero di attributi (colonne) nella tabella.
+     *
+     * @return Il numero di attributi nella tabella.
+     */
     public int getNumberOfAttributes(){
         return tableSchema.size();
     }
 
+    /**
+     * Restituisce la colonna all'indice specificato.
+     *
+     * @param index L'indice della colonna da restituire.
+     * @return La colonna all'indice specificato.
+     */
     public Column getColumn(int index){
         return tableSchema.get(index);
     }
