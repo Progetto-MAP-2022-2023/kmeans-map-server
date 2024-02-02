@@ -127,6 +127,20 @@ public class ServerOneClient extends Thread{
                             }
                         }
                         break;
+                    case 4:
+                        try {
+                            //Creating a File object for directory
+                            File directoryPath = new File(System.getProperty("user.dir") + "/savings");
+                            //List of all files and directories
+                            String[] contents = directoryPath.list();
+                            if (contents != null)
+                                out.writeObject(Arrays.toString(contents));
+                            else
+                                out.writeObject("No files founded.");
+                        } catch (Exception e) {
+                            out.writeObject("No files founded.");
+                        }
+                        break;
                     default:
                         break;
                 }
